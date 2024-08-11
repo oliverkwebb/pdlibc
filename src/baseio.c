@@ -2,23 +2,33 @@
 #include <string.h>
 #include <stdio.h>
 
-static char iobuffer[128];
-static int iobufidx = 0, iobufmode = _IOLBF, iobufsize = 128;
+static FILE files[FOPEN_MAX];
 
-void ioflush(void) // TODO: Morph into fflush()
+FILE *stdin = &files[0], *stdout = &files[1], *stderr = &files[2]; // Init in __libc_start
+
+void fflush(FILE *stream)
 {
-	write(1, iobuffer, iobufidx);
-	iobufidx = 0;
+	if (stream) {
+		write(stream->fd, stream->buffer, stream->bufidx);
+		stream->bufidx = 0;
+	} else {
+		for (int i = 0; i < FOPEN_MAX; i++) {
+			FILE *stream = &files[i];
+			if (!stream->buffer) continue;
+			write(stream->fd, stream->buffer, stream->bufidx);
+			stream->bufidx = 0;
+		}
+	}
 }
 
-static void iosubmit(char *text, size_t size)
+static void fiosubmit(FILE *stream, char *text, size_t size)
 {
 	for (int i = 0; i < size; i++) {
-		if (iobufidx == iobufsize) ioflush();
-		iobuffer[iobufidx++] = text[i];
-		if (text[i] == '\n' && iobufmode == _IOLBF) ioflush();
+		if (stream->bufidx == stream->bufsize) fflush(stream);
+		stream->buffer[stream->bufidx++] = text[i];
+		if (text[i] == '\n' && stream->bufmode == _IOLBF) fflush(stream);
 	}
-	if (iobufmode == _IONBF) ioflush();
+	if (stream->bufmode == _IONBF) fflush(stream);
 }
 
 int fseek(FILE *stream, long offset, int whence)
@@ -33,8 +43,8 @@ void rewind(FILE *stream)
 
 int puts(char *string)
 {
-	iosubmit(string, strlen(string));
-	iosubmit("\n", 1);
+	fiosubmit(stdout, string, strlen(string));
+	fiosubmit(stdout, "\n", 1);
 	return 0;
 }
 
@@ -42,6 +52,6 @@ int puts(char *string)
 int putchar(int c)
 {
 	char f = c;
-	iosubmit(&f, 1);
+	fiosubmit(stdout, &f, 1);
 	return 0;
 }

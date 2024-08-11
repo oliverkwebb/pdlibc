@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 extern size_t strlen(char *);
+extern int strcmp(char *, char*);
 extern void *memcpy(void *, void *, size_t n);
 extern void *memset(void *, int c, size_t n);
 

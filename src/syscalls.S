@@ -20,18 +20,15 @@ a: \
   jmp _syscall
 
 wrap(write)
-wrap(read)
 wrap(open)
 wrap(close)
 wrap(time)
 wrap(lseek)
+wrap(kill)
 wrap(getpid) // raise
 wrap(rename)
 
-
-.global exit
-exit:
-  call ___end_libc
-  mov edi, eax
+.global _Exit
+_Exit:
   mov eax, __NR_exit
   jmp _syscall

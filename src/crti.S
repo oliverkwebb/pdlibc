@@ -6,13 +6,12 @@
 //  syscalls: rdi, rsi, rdx, r10, r8, r9
 //                           ^^^
 // return to rax
-// stack grows from high addr -> low
+// stack grows from high addr -> low 
 
 .global _start
 _start:
   xor rbp, rbp
+  xor r9, r9
   pop rdi // argc
   mov rsi, rsp // argv
-  call main
-  mov edi, eax
-  call exit
+  call ___runc

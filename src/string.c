@@ -28,3 +28,9 @@ void *memcpy(void *dest, void *from, size_t n)
 	}
 	return d;
 }
+
+int strcmp(char *s1, char *s2)
+{
+	for(; *s1 == *s2 && *s1; s1++, s2++);
+	return (int)(*s1) - (int)(*s2);
+}

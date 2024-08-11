@@ -1,4 +1,4 @@
-#ifdef _LIMITS_H
+#ifndef _LIMITS_H
 #define _LIMITS_H
 
 #define CHAR_BIT  8

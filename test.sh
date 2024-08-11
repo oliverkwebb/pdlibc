@@ -82,9 +82,9 @@ LONGSTRING="$(printf -- "a%150s" potato)"
 PROGRAM () {
 	echo "PROGRAM: $1"
 	if [ -n "$TEST_HOST" ]; then
-		CFLAGS="" INCFLAGS="" CRTI_LIBCA=""
+		NOSTDFLAGS="" INCFLAGS="" CRTI_LIBCA=""
 	fi
-	gcc $CFLAGS $INCFLAGS test/$1.c $CRTI_LIBCA -o test/tprogs/$1
+	$CC $CFLAGS $INCFLAGS $NOSTDFLAGS test/$1.c $CRTI_LIBCA -o test/tprogs/$1
 	PROG=test/tprogs/$1
 }
 
@@ -104,3 +104,19 @@ testc "putchar" "ExampleText" "ExampleText"
 PROGRAM atexit
 
 testc "atexit" "" "UwUUwUUwU\n"
+
+PROGRAM strlen
+
+testc "strlen" "abcdef" "6\n"
+
+PROGRAM crti
+
+testc "crti argc" "a b c d e f" "7\n"
+
+PROGRAM array
+
+testc "array" "" ""
+
+PROGRAM abs
+
+testc "abs" "" "0\n1\n350\n1\n350\n0\n1\n350\n1\n350\n"

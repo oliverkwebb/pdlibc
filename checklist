@@ -1,7 +1,7 @@
 - [X] <assert.h>
 - [X] <ctype.h>
 - [X] <errno.h>
-- [ ] <float.h>
+- [X] <float.h>
 - [X] <limits.h>
 - [ ] <locale.h>
 - [ ] <math.h>
@@ -13,29 +13,34 @@
 - [ ] <stdlib.h>
 - [ ] <string.h>
 - [ ] <time.h>
+
 - [X] EDOM
 - [X] ERANGE
 - [X] errno
+
 - [X] NULL
 - [X] offsetof( type,  member-designator)
 - [X] ptrdiff_t
 - [X] size_t
 - [X] wchar_t
-- [ ] NDEBUG
-- [ ] void assert(int expression);
-- [ ] int isalnum(int c);
-- [ ] int isalpha(int c);
-- [ ] int iscntrl(int c);
-- [ ] int isdigit(int c);
-- [ ] int isgraph(int c);
-- [ ] int islower(int c);
-- [ ] int isprint(int c);
-- [ ] int ispunct(int c);
-- [ ] int isspace(int c);
-- [ ] int isupper(int c);
-- [ ] int isxdigit(int c);
-- [ ] int tolower(int c);
-- [ ] int toupper(int c);
+
+- [X] NDEBUG
+- [X] void assert(int expression);
+
+- [X] int isalnum(int c);
+- [X] int isalpha(int c);
+- [X] int iscntrl(int c);
+- [X] int isdigit(int c);
+- [X] int isgraph(int c);
+- [X] int islower(int c);
+- [X] int isprint(int c);
+- [X] int ispunct(int c);
+- [X] int isspace(int c);
+- [X] int isupper(int c);
+- [X] int isxdigit(int c);
+- [X] int tolower(int c);
+- [X] int toupper(int c);
+
 - [ ] LC_ALL
 - [ ] LC_COLLATE
 - [ ] LC_CTYPE
@@ -46,6 +51,7 @@
 - [ ] struct lconv
 - [ ] char *setlocale(int category, const char *locale);
 - [ ] struct lconv *localeconv(void);
+
 - [ ] HUGE_VAL
 - [ ] double acos(double x);
 - [ ] double asin(double x);
@@ -69,6 +75,7 @@
 - [ ] double fabs(double x);
 - [ ] double floor(double x);
 - [ ] double fmod(double x, double y);
+
 - [ ] jmp_buf
 - [ ] int setjmp(jmp_buf env);
 - [ ] void longjmp(jmp_buf env, int val);
@@ -76,14 +83,15 @@
 - [ ] SIG_DFL
 - [ ] SIG_ERR
 - [ ] SIG_IGN
-- [ ] SIGABRT
-- [ ] SIGFPE
-- [ ] SIGILL
-- [ ] SIGINT
-- [ ] SIGSEGV
-- [ ] SIGTERM
+- [X] SIGABRT
+- [X] SIGFPE
+- [X] SIGILL
+- [X] SIGINT
+- [X] SIGSEGV
+- [X] SIGTERM
 - [ ] void (*signal(int sig, void (*func)(int)))(int);
-- [ ] int raise(int sig);
+- [X] int raise(int sig);
+
 - [ ] va_list
 - [ ] void va_start(va_list ap,  parmN);
 - [ ] type va_arg(va_list ap,  type);
@@ -92,11 +100,11 @@
 - [X] _IOFBF
 - [X] _IOLBF
 - [X] _IONBF
-- [ ] BUFSIZ
+- [X] BUFSIZ
 - [X] EOF
-- [ ] FILE
-- [ ] FILENAME_MAX
-- [ ] FOPEN_MAX
+- [X] FILE
+- [X] FILENAME_MAX
+- [X] FOPEN_MAX
 - [ ] fpos_t
 - [ ] L_tmpnam
 - [X] NULL
@@ -104,16 +112,16 @@
 - [X] SEEK_END
 - [X] SEEK_SET
 - [X] size_t
-- [ ] stderr
-- [ ] stdin
-- [ ] stdout
+- [X] stderr
+- [X] stdin
+- [X] stdout
 - [ ] TMP_MAX
-- [X] int remove(const char *filename);
-- [ ] int rename(const char *old, const char *new);
+- [ ] int remove(const char *filename);
+- [X] int rename(const char *old, const char *new);
 - [ ] FILE *tmpfile(void);
 - [ ] char *tmpnam(char *s);
 - [ ] int fclose(FILE *stream);
-- [ ] int fflush(FILE *stream);
+- [X] int fflush(FILE *stream);
 - [ ] FILE *fopen(const char *filename, const char *mode);
 - [ ] FILE *freopen(const char *filename, const char *mode, FILE *stream);
 - [ ] void setbuf(FILE *stream, char *buf);
@@ -141,24 +149,24 @@
 - [ ] size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 - [ ] size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 - [ ] int fgetpos(FILE *stream, fpos_t *pos);
-- [ ] int fseek(FILE *stream, long int offset, int whence);
+- [X] int fseek(FILE *stream, long int offset, int whence);
 - [ ] int fsetpos(FILE *stream, const fpos_t *pos);
 - [ ] long int ftell(FILE *stream);
-- [ ] void rewind(FILE *stream);
+- [X] void rewind(FILE *stream);
 - [ ] void clearerr(FILE *stream);
 - [ ] int feof(FILE *stream);
 - [ ] int ferror(FILE *stream);
 - [ ] void perror(const char *s);
 
-- [ ] EXIT_FAILURE
-- [ ] EXIT_SUCCESS
+- [X] EXIT_FAILURE
+- [X] EXIT_SUCCESS
 - [ ] MB_CUR_MAX
-- [ ] NULL
+- [X] NULL
 - [ ] RAND_MAX
 - [ ] div_t
 - [ ] ldiv_t
-- [ ] size_t
-- [ ] wchar_t
+- [X] size_t
+- [X] wchar_t
 - [ ] double atof(const char *nptr);
 - [ ] int atoi(const char *nptr);
 - [ ] long int atol(const char *nptr);
@@ -172,34 +180,32 @@
 - [ ] void *malloc(size_t size);
 - [ ] void *realloc(void *ptr, size_t size);
 - [ ] void abort(void);
-- [ ] int atexit(void (*func)(void));
-- [ ] void exit(int status);
+- [X] int atexit(void (*func)(void));
+- [X] void exit(int status);
 - [ ] char *getenv(const char *name);
 - [ ] int system(const char *string);
-- [ ] void *bsearch(const void *key, const void *base,
-- [ ] size_t nmemb, size_t size,
-- [ ] int (*compar)(const void *, const void *));
-- [ ] void qsort(void *base, size_t nmemb, size_t size,
-- [ ] int (*compar)(const void *, const void *));
-- [ ] int abs(int j);
+- [ ] void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
+- [ ] void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
+- [X] int abs(int j);
 - [ ] div_t div(int numer, int denom);
-- [ ] long int labs(long int j);
+- [X] long int labs(long int j);
 - [ ] ldiv_t ldiv(long int numer, long int denom);
 - [ ] int mblen(const char *s, size_t n);
 - [ ] int mbtowc(wchar_t *pwc, const char *s, size_t n);
 - [ ] int wctomb(char *s, wchar_t wchar);
 - [ ] size_t mbstowcs(wchar_t *pwcs, const char *s, size_t n);
 - [ ] size_t wcstombs(char *s, const wchar_t *pwcs, size_t n);
-- [ ] NULL
-- [ ] size_t
-- [ ] void *memcpy(void *s1, const void *s2, size_t n);
+
+- [X] NULL
+- [X] size_t
+- [X] void *memcpy(void *s1, const void *s2, size_t n);
 - [ ] void *memmove(void *s1, const void *s2, size_t n);
 - [ ] char *strcpy(char *s1, const char *s2);
 - [ ] char *strncpy(char *s1, const char *s2, size_t n);
 - [ ] char *strcat(char *s1, const char *s2);
 - [ ] char *strncat(char *s1, const char *s2, size_t n);
 - [ ] int memcmp(const void *s1, const void *s2, size_t n);
-- [ ] int strcmp(const char *s1, const char *s2);
+- [X] int strcmp(const char *s1, const char *s2);
 - [ ] int strcoll(const char *s1, const char *s2);
 - [ ] int strncmp(const char *s1, const char *s2, size_t n);
 - [ ] size_t strxfrm(char *s1, const char *s2, size_t n);
@@ -211,9 +217,9 @@
 - [ ] size_t strspn(const char *s1, const char *s2);
 - [ ] char *strstr(const char *s1, const char *s2);
 - [ ] char *strtok(char *s1, const char *s2);
-- [ ] void *memset(void *s, int c, size_t n);
+- [X] void *memset(void *s, int c, size_t n);
 - [ ] char *strerror(int errnum);
-- [ ] size_t strlen(const char *s);
+- [X] size_t strlen(const char *s);
 
 - [ ] CLK_TCK
 - [X] NULL
@@ -249,33 +255,33 @@
 - [X] #define USHRT_MAX                    65535
 
 
-- [ ] #define DBL_DIG                         10
-- [ ] #define DBL_EPSILON                   1E-9
-- [ ] #define DBL_MANT_DIG
-- [ ] #define DBL_MAX                      1E+37
-- [ ] #define DBL_MAX_10_EXP                 +37
-- [ ] #define DBL_MAX_EXP
-- [ ] #define DBL_MIN                      1E-37
-- [ ] #define DBL_MIN_10_EXP                 -37
-- [ ] #define DBL_MIN_EXP
-- [ ] #define FLT_DIG                          6
-- [ ] #define FLT_EPSILON                   1E-5
-- [ ] #define FLT_MANT_DIG
-- [ ] #define FLT_MAX                      1E+37
-- [ ] #define FLT_MAX_10_EXP                 +37
-- [ ] #define FLT_MAX_EXP
-- [ ] #define FLT_MIN                      1E-37
-- [ ] #define FLT_MIN_10_EXP                 -37
-- [ ] #define FLT_MIN_EXP
-- [ ] #define FLT_RADIX                        2
-- [ ] #define FLT_ROUNDS
-- [ ] #define LDBL_DIG                        10
-- [ ] #define LDBL_EPSILON                  1E-9
-- [ ] #define LDBL_MANT_DIG
-- [ ] #define LDBL_MAX                     1E+37
-- [ ] #define LDBL_MAX_10_EXP                +37
-- [ ] #define LDBL_MAX_EXP
-- [ ] #define LDBL_MIN                     1E-37
-- [ ] #define LDBL_MIN_10_EXP                -37
-- [ ] #define LDBL_MIN_EXP
+- [X] #define DBL_DIG                         10
+- [X] #define DBL_EPSILON                   1E-9
+- [X] #define DBL_MANT_DIG
+- [X] #define DBL_MAX                      1E+37
+- [X] #define DBL_MAX_10_EXP                 +37
+- [X] #define DBL_MAX_EXP
+- [X] #define DBL_MIN                      1E-37
+- [X] #define DBL_MIN_10_EXP                 -37
+- [X] #define DBL_MIN_EXP
+- [X] #define FLT_DIG                          6
+- [X] #define FLT_EPSILON                   1E-5
+- [X] #define FLT_MANT_DIG
+- [X] #define FLT_MAX                      1E+37
+- [X] #define FLT_MAX_10_EXP                 +37
+- [X] #define FLT_MAX_EXP
+- [X] #define FLT_MIN                      1E-37
+- [X] #define FLT_MIN_10_EXP                 -37
+- [X] #define FLT_MIN_EXP
+- [X] #define FLT_RADIX                        3
+- [X] #define FLT_ROUNDS
+- [X] #define LDBL_DIG                        10
+- [X] #define LDBL_EPSILON                  1E-9
+- [X] #define LDBL_MANT_DIG
+- [X] #define LDBL_MAX                     1E+37
+- [X] #define LDBL_MAX_10_EXP                +37
+- [X] #define LDBL_MAX_EXP
+- [X] #define LDBL_MIN                     1E-37
+- [X] #define LDBL_MIN_10_EXP                -37
+- [X] #define LDBL_MIN_EXP
 

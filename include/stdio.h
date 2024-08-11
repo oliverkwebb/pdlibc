@@ -5,10 +5,10 @@
 
 typedef struct __FILE {
 	int fd;
-	char *iobuf;
-	int iobufidx;
-	int iobufmode;
-	int iobufsize;
+	char *buffer;
+	int bufidx;
+	int bufmode;
+	int bufsize;
 } FILE;
 
 extern FILE *stdin, *stdout, *stderr;
@@ -23,10 +23,16 @@ extern FILE *stdin, *stdout, *stderr;
 
 #define EOF -1
 
+#define BUFSIZ 128
+#define FILENAME_MAX 128
+#define FOPEN_MAX 32
+
 extern int puts(char *);
 extern int putchar(int c);
 extern int remove(const char *, const char *);
 extern int lseek(int, long, int); // Not in C89, needed for fseek()
 extern int fseek(FILE *, long, int); // Not in C89, needed for fseek()
+extern int fflush(FILE *);
+extern void rewind(FILE *);
 
 #endif

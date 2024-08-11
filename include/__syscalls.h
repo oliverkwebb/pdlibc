@@ -4,4 +4,7 @@
 #include <stddef.h>
 extern size_t read(int, void *, int);
 extern size_t write(int, void *, int);
+extern void _Exit(int);
+extern int kill(int, int);
+extern int getpid(void);
 #endif
