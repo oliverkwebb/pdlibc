@@ -1,7 +1,7 @@
 #include <__syscalls.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 /* PAGE HEADER: 64 bytes
 0x00 -> 0x08: long long PAGE_TYPE (SPLIT=0; WHOLE=1; MP=2)
@@ -112,4 +112,10 @@ void free(void *ptr) {
       if (munmap(probe, probe->ismulti ? probe->npages : 0x1000)) __abort_free();
     }
   } else __abort_free();
+}
+
+void *calloc(size_t nmemb, size_t size)
+{
+	void *p = malloc(nmemb * size);
+	memset(p, 0, nmemb * size);
 }

@@ -104,7 +104,7 @@ testc "putchar" "ExampleText" "ExampleText"
 
 PROGRAM atexit
 
-testc "atexit" "" "UwUUwUUwU\n"
+testc "atexit" "" "UwUUwUUwU\nUwUUwUUwU\nUwUUwUUwU\n"
 
 PROGRAM assert
 

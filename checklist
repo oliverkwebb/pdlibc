@@ -177,11 +177,11 @@
 - [ ] int rand(void);
 - [ ] void srand(unsigned int seed);
 - [ ] void *calloc(size_t nmemb, size_t size);
-- [ ] void free(void *ptr);
-- [ ] void *malloc(size_t size);
+- [X] void free(void *ptr);
+- [X] void *malloc(size_t size);
 - [ ] void *realloc(void *ptr, size_t size);
-- [ ] void abort(void);
-- [x] int atexit(void (*func)(void));
+- [X] void abort(void);
+- [X] int atexit(void (*func)(void));
 - [X] void exit(int status);
 - [ ] char *getenv(const char *name);
 - [ ] int system(const char *string);

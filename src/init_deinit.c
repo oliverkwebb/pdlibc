@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <__syscalls.h>
 
-void (*run_atexit)(void) = NULL;
+static void (*run_atexit[32])(void);
+static int atexit_regidx = 0;
 
 int atexit(void (*func)(void)) // TODO: Multiple Functions
 {
-	run_atexit = func;
+	run_atexit[atexit_regidx++] = func;
 	return 0;
 }
 
@@ -31,7 +32,7 @@ void ___runc(int argc, char **argv)
 
 void exit(int value)
 {
-	if (run_atexit) run_atexit();
+	for (int i = 0; i < atexit_regidx; i++) run_atexit[i]();
 	fflush(NULL);
 	_Exit(value);
 }
