@@ -1,28 +1,29 @@
+## [x] = in headers; [X] = tested and fully C90 complient
 - [X] <assert.h>
 - [X] <ctype.h>
-- [X] <errno.h>
-- [X] <float.h>
-- [X] <limits.h>
+- [x] <errno.h>
+- [x] <float.h>
+- [x] <limits.h>
 - [ ] <locale.h>
 - [ ] <math.h>
 - [ ] <setjmp.h>
 - [ ] <signal.h>
-- [ ] <stdarg.h>
-- [X] <stddef.h>
+- [X] <stdarg.h>
+- [x] <stddef.h>
 - [ ] <stdio.h>
 - [ ] <stdlib.h>
 - [ ] <string.h>
 - [ ] <time.h>
 
-- [X] EDOM
-- [X] ERANGE
-- [X] errno
+- [x] EDOM
+- [x] ERANGE
+- [x] errno
 
 - [X] NULL
-- [X] offsetof( type,  member-designator)
-- [X] ptrdiff_t
+- [x] offsetof( type,  member-designator)
+- [x] ptrdiff_t
 - [X] size_t
-- [X] wchar_t
+- [x] wchar_t
 
 - [X] NDEBUG
 - [X] void assert(int expression);
@@ -83,25 +84,25 @@
 - [ ] SIG_DFL
 - [ ] SIG_ERR
 - [ ] SIG_IGN
-- [X] SIGABRT
-- [X] SIGFPE
-- [X] SIGILL
-- [X] SIGINT
-- [X] SIGSEGV
-- [X] SIGTERM
+- [x] SIGABRT
+- [x] SIGFPE
+- [x] SIGILL
+- [x] SIGINT
+- [x] SIGSEGV
+- [x] SIGTERM
 - [ ] void (*signal(int sig, void (*func)(int)))(int);
-- [X] int raise(int sig);
+- [x] int raise(int sig);
 
-- [ ] va_list
-- [ ] void va_start(va_list ap,  parmN);
-- [ ] type va_arg(va_list ap,  type);
-- [ ] void va_end(va_list ap);
+- [X] va_list
+- [X] void va_start(va_list ap,  parmN);
+- [X] type va_arg(va_list ap,  type);
+- [X] void va_end(va_list ap);
 
-- [X] _IOFBF
-- [X] _IOLBF
-- [X] _IONBF
-- [X] BUFSIZ
-- [X] EOF
+- [x] _IOFBF
+- [x] _IOLBF
+- [x] _IONBF
+- [x] BUFSIZ
+- [x] EOF
 - [X] FILE
 - [X] FILENAME_MAX
 - [X] FOPEN_MAX
@@ -112,16 +113,16 @@
 - [X] SEEK_END
 - [X] SEEK_SET
 - [X] size_t
-- [X] stderr
-- [X] stdin
-- [X] stdout
+- [x] stderr
+- [x] stdin
+- [x] stdout
 - [ ] TMP_MAX
 - [ ] int remove(const char *filename);
-- [X] int rename(const char *old, const char *new);
+- [x] int rename(const char *old, const char *new);
 - [ ] FILE *tmpfile(void);
 - [ ] char *tmpnam(char *s);
 - [ ] int fclose(FILE *stream);
-- [X] int fflush(FILE *stream);
+- [x] int fflush(FILE *stream);
 - [ ] FILE *fopen(const char *filename, const char *mode);
 - [ ] FILE *freopen(const char *filename, const char *mode, FILE *stream);
 - [ ] void setbuf(FILE *stream, char *buf);
@@ -147,20 +148,20 @@
 - [X] int puts(const char *s);
 - [ ] int ungetc(int c, FILE *stream);
 - [ ] size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-- [ ] size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+- [X] size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 - [ ] int fgetpos(FILE *stream, fpos_t *pos);
-- [X] int fseek(FILE *stream, long int offset, int whence);
+- [x] int fseek(FILE *stream, long int offset, int whence);
 - [ ] int fsetpos(FILE *stream, const fpos_t *pos);
 - [ ] long int ftell(FILE *stream);
-- [X] void rewind(FILE *stream);
+- [x] void rewind(FILE *stream);
 - [ ] void clearerr(FILE *stream);
-- [ ] int feof(FILE *stream);
+- [x] int feof(FILE *stream);
 - [ ] int ferror(FILE *stream);
 - [ ] void perror(const char *s);
 
 - [X] EXIT_FAILURE
 - [X] EXIT_SUCCESS
-- [ ] MB_CUR_MAX
+- [X] MB_CUR_MAX
 - [X] NULL
 - [ ] RAND_MAX
 - [ ] div_t
@@ -180,7 +181,7 @@
 - [ ] void *malloc(size_t size);
 - [ ] void *realloc(void *ptr, size_t size);
 - [ ] void abort(void);
-- [X] int atexit(void (*func)(void));
+- [x] int atexit(void (*func)(void));
 - [X] void exit(int status);
 - [ ] char *getenv(const char *name);
 - [ ] int system(const char *string);
@@ -198,14 +199,14 @@
 
 - [X] NULL
 - [X] size_t
-- [X] void *memcpy(void *s1, const void *s2, size_t n);
+- [x] void *memcpy(void *s1, const void *s2, size_t n);
 - [ ] void *memmove(void *s1, const void *s2, size_t n);
 - [ ] char *strcpy(char *s1, const char *s2);
 - [ ] char *strncpy(char *s1, const char *s2, size_t n);
 - [ ] char *strcat(char *s1, const char *s2);
 - [ ] char *strncat(char *s1, const char *s2, size_t n);
 - [ ] int memcmp(const void *s1, const void *s2, size_t n);
-- [X] int strcmp(const char *s1, const char *s2);
+- [x] int strcmp(const char *s1, const char *s2);
 - [ ] int strcoll(const char *s1, const char *s2);
 - [ ] int strncmp(const char *s1, const char *s2, size_t n);
 - [ ] size_t strxfrm(char *s1, const char *s2, size_t n);
@@ -217,8 +218,8 @@
 - [ ] size_t strspn(const char *s1, const char *s2);
 - [ ] char *strstr(const char *s1, const char *s2);
 - [ ] char *strtok(char *s1, const char *s2);
-- [X] void *memset(void *s, int c, size_t n);
-- [ ] char *strerror(int errnum);
+- [x] void *memset(void *s, int c, size_t n);
+- [x] char *strerror(int errnum);
 - [X] size_t strlen(const char *s);
 
 - [ ] CLK_TCK
@@ -230,7 +231,7 @@
 - [ ] clock_t clock(void);
 - [ ] double difftime(time_t time1, time_t time0);
 - [ ] time_t mktime(struct tm *timeptr);
-- [X] time_t time(time_t *timer);
+- [x] time_t time(time_t *timer);
 - [ ] char *asctime(const struct tm *timeptr);
 - [ ] char *ctime(const time_t *timer);
 - [ ] struct tm *gmtime(const time_t *timer);

@@ -6,29 +6,43 @@ static FILE files[FOPEN_MAX];
 
 FILE *stdin = &files[0], *stdout = &files[1], *stderr = &files[2]; // Init in __libc_start
 
-void fflush(FILE *stream)
+int fflush(FILE *stream)
 {
-	if (stream) {
+	if (stream && stream->bufrd) {
 		write(stream->fd, stream->buffer, stream->bufidx);
 		stream->bufidx = 0;
 	} else {
 		for (int i = 0; i < FOPEN_MAX; i++) {
 			FILE *stream = &files[i];
-			if (!stream->buffer) continue;
+			if (!stream->buffer || stream->bufrd) continue;
 			write(stream->fd, stream->buffer, stream->bufidx);
 			stream->bufidx = 0;
 		}
 	}
+	return 0;
 }
 
-static void fiosubmit(FILE *stream, char *text, size_t size)
+int fwrite(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
+	char *text = (char *)ptr; size*=nmemb;
+
+	if (stream->bufrd) { // Already being used
+		write(stream->fd, ptr, size);
+	}
+
 	for (int i = 0; i < size; i++) {
 		if (stream->bufidx == stream->bufsize) fflush(stream);
 		stream->buffer[stream->bufidx++] = text[i];
 		if (text[i] == '\n' && stream->bufmode == _IOLBF) fflush(stream);
 	}
 	if (stream->bufmode == _IONBF) fflush(stream);
+
+	return 0;
+}
+
+int feof(FILE *stream)
+{
+	return stream->iseof;
 }
 
 int fseek(FILE *stream, long offset, int whence)
@@ -41,17 +55,27 @@ void rewind(FILE *stream)
  	fseek(stream, 0L, SEEK_SET);
 }
 
+int fputs(FILE *stream, char *str)
+{
+	return fwrite(str, strlen(str), 1, stdout);
+}
+
 int puts(char *string)
 {
-	fiosubmit(stdout, string, strlen(string));
-	fiosubmit(stdout, "\n", 1);
+	fputs(stdout, string);
+	fputs(stdout, "\n");
 	return 0;
 }
 
+int fputc(int c, FILE *stream)
+{
+	char f = c;
+	fwrite(&f, 1, 1, stream);
+	return 0;
+}
 
 int putchar(int c)
 {
-	char f = c;
-	fiosubmit(stdout, &f, 1);
+	fputc(c, stdout);
 	return 0;
 }

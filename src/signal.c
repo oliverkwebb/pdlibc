@@ -5,3 +5,8 @@ int raise(int sig)
 {
 	return kill(getpid(), sig);
 }
+
+void abort(void)
+{
+	raise(SIGABRT);
+}

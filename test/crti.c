@@ -1,18 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char buf[40];
-
-#ifndef STRFROMI
-char *strfromi(int i, char *buf, int, int)
-{
-	char *bf;
-	asprintf(&bf, "%d", i);
-	return bf;
-}
-#endif
-
 int main(int argc, char **argv)
 {
-	puts(strfromi(argc, buf, 40, 10));
+	volatile int array[] = {0,1,2,3,4,5,6,7,8,9,0};
+	printf("%d\n", argc);
+	return array[10];
 }

@@ -62,7 +62,7 @@ testc() {
   # Catch segfaults
   [ "$RETVAL" -ne "0" ] &&
     echo "exited with signal (or returned $RETVAL)" >> "$TESTDIR"/actual
-  DIFF="$(diff -au${NOSPACE:+w} $TESTDIR/expected $TESTDIR/actual 2>&1)"
+  DIFF="$(diff --color=always -au${NOSPACE:+w} $TESTDIR/expected $TESTDIR/actual 2>&1)"
   [ -z "$DIFF" ] && do_pass || VERBOSE=all do_fail
   if ! verbose_has quiet && { [ -n "$DIFF" ] || verbose_has spam; }
   then
@@ -95,6 +95,7 @@ testc "puts newlines" "\"Hello
 World\"" "Hello 
 World\n"
 testc "puts long" "\"$LONGSTRING\"" "$LONGSTRING\n"
+testc "puts empty" "\"\"" "\n"
 
 PROGRAM putchar
 
@@ -105,6 +106,14 @@ PROGRAM atexit
 
 testc "atexit" "" "UwUUwUUwU\n"
 
+PROGRAM assert
+
+testc "assert" "||echo Yippe" "Yippe\n"
+
+PROGRAM assert_NDEBUG
+
+testc "NDEBUG" "&&echo Yippe" "Yippe\n"
+
 PROGRAM strlen
 
 testc "strlen" "abcdef" "6\n"
@@ -113,10 +122,26 @@ PROGRAM crti
 
 testc "crti argc" "a b c d e f" "7\n"
 
-PROGRAM array
-
-testc "array" "" ""
-
 PROGRAM abs
 
 testc "abs" "" "0\n1\n350\n1\n350\n0\n1\n350\n1\n350\n"
+
+PROGRAM printf # Also a varargs test
+
+testc "printf %d %s basic" "UwU" "Hello World, 34, -21, UwU\n"
+
+PROGRAM ctype
+
+testc "ctype" "" "$(cat test/files/ctype-desired)
+"
+
+PROGRAM macros
+
+testc "macros" "" "1, 0, 0, -1"
+
+PROGRAM fwrite
+
+testc "fwrite" "|xxd" \
+"00000000: 0200 0000 0300 0000 0400 0000 0500 0000  ................
+00000010: 0600 0000                                ....
+"
