@@ -27,6 +27,8 @@ wrap(lseek)
 wrap(kill)
 wrap(getpid) // raise
 wrap(rename)
+wrap(mmap)
+wrap(munmap)
 
 .global _Exit
 _Exit:

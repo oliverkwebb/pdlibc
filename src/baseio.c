@@ -8,13 +8,13 @@ FILE *stdin = &files[0], *stdout = &files[1], *stderr = &files[2]; // Init in __
 
 int fflush(FILE *stream)
 {
-	if (stream && stream->bufrd) {
+	if (stream && !stream->bufrd && stream->bufidx) {
 		write(stream->fd, stream->buffer, stream->bufidx);
 		stream->bufidx = 0;
 	} else {
 		for (int i = 0; i < FOPEN_MAX; i++) {
 			FILE *stream = &files[i];
-			if (!stream->buffer || stream->bufrd) continue;
+			if (!stream->buffer || stream->bufrd || !stream->bufidx) continue;
 			write(stream->fd, stream->buffer, stream->bufidx);
 			stream->bufidx = 0;
 		}
@@ -55,15 +55,15 @@ void rewind(FILE *stream)
  	fseek(stream, 0L, SEEK_SET);
 }
 
-int fputs(FILE *stream, char *str)
+int fputs(char *str, FILE *stream)
 {
-	return fwrite(str, strlen(str), 1, stdout);
+	return fwrite(str, strlen(str), 1, stream);
 }
 
 int puts(char *string)
 {
-	fputs(stdout, string);
-	fputs(stdout, "\n");
+	fputs(string, stdout);
+	fputs("\n", stdout);
 	return 0;
 }
 

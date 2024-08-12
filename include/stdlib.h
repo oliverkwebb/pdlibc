@@ -13,6 +13,9 @@ extern void exit(int status);
 extern int atexit(void (*func)(void));
 extern void abort(void);
 
+extern void *malloc(size_t);
+extern void free(void *);
+
 #define MB_CUR_MAX 1
 
 #endif

@@ -27,15 +27,15 @@ int vfprintf(FILE *stream, const char *format, va_list va)
 	enum preformatter {NONE=0, INT, LONG, SHORT} preformatter = NONE;
 
 	for (int i = 0; i < strlen(format); i++) {
-		if (!preformatter && format[i] != '%') putchar(format[i]);
+		if (!preformatter && format[i] != '%') fputc(format[i], stream);
 		else switch(format[++i]) {
 			case 'd':
-				if (preformatter == LONG) fputs(stream, itoa(va_arg(va, long), printf_numbuf, 32));
-				else fputs(stream, itoa(va_arg(va, int), printf_numbuf, 32));
+				if (preformatter == LONG) fputs(itoa(va_arg(va, long), printf_numbuf, 32), stream);
+				else fputs(itoa(va_arg(va, int), printf_numbuf, 32), stream);
 				preformatter = 0;
 				break;
 			case 's':
-				fputs(stream, va_arg(va, char *));
+				fputs(va_arg(va, char *), stream);
 				preformatter = 0;
 				break;
 			case 'l':
@@ -51,6 +51,15 @@ int printf(const char *format, ...)
 	va_list va;
 	va_start(va, format);
 	vfprintf(stdout, format, va);
+	va_end(va);
+	return 0;
+}
+
+int fprintf(FILE *stream, const char *format, ...)
+{
+	va_list va;
+	va_start(va, format);
+	vfprintf(stream, format, va);
 	va_end(va);
 	return 0;
 }

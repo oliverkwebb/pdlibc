@@ -30,9 +30,10 @@ extern FILE *stdin, *stdout, *stderr;
 #define FOPEN_MAX 32
 
 extern int puts(char *);
-extern int fputs(FILE *stream, char *);
+extern int fputs(char *, FILE *);
 extern int putchar(int c);
 extern int putc(int c, FILE *stream);
+extern int fputc(int c, FILE *stream);
 extern int remove(const char *, const char *);
 extern int lseek(int, long, int); // Not in C89, needed for fseek()
 extern int fseek(FILE *, long, int); // Not in C89, needed for fseek()
@@ -41,5 +42,6 @@ extern void rewind(FILE *);
 extern int fwrite(void *, size_t, size_t, FILE*);
 
 extern int printf(const char *format, ...);
+extern int fprintf(FILE *, const char *format, ...);
 
 #endif

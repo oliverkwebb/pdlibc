@@ -145,3 +145,11 @@ testc "fwrite" "|xxd" \
 "00000000: 0200 0000 0300 0000 0400 0000 0500 0000  ................
 00000010: 0600 0000                                ....
 "
+
+PROGRAM mallocsmall
+
+testc "mallocsmall" "" "aaaa\n"
+
+PROGRAM malloclarge
+
+testc "malloclarge" "" ""
