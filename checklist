@@ -48,18 +48,18 @@
 - [ ] LC_MONETARY
 - [ ] LC_NUMERIC
 - [ ] LC_TIME
-- [ ] NULL
+- [X] NULL
 - [ ] struct lconv
 - [ ] char *setlocale(int category, const char *locale);
 - [ ] struct lconv *localeconv(void);
 
-- [ ] HUGE_VAL
+- [x] HUGE_VAL
 - [ ] double acos(double x);
 - [ ] double asin(double x);
 - [ ] double atan(double x);
 - [ ] double atan2(double y, double x);
-- [ ] double cos(double x);
-- [ ] double sin(double x);
+- [X] double cos(double x);
+- [X] double sin(double x);
 - [ ] double tan(double x);
 - [ ] double cosh(double x);
 - [ ] double sinh(double x);
@@ -71,9 +71,9 @@
 - [ ] double log10(double x);
 - [ ] double modf(double value, double *iptr);
 - [ ] double pow(double x, double y);
-- [ ] double sqrt(double x);
+- [X] double sqrt(double x);
 - [ ] double ceil(double x);
-- [ ] double fabs(double x);
+- [X] double fabs(double x);
 - [ ] double floor(double x);
 - [ ] double fmod(double x, double y);
 
@@ -222,15 +222,15 @@
 - [x] char *strerror(int errnum);
 - [X] size_t strlen(const char *s);
 
-- [ ] CLK_TCK
+- [x] CLK_TCK
 - [X] NULL
-- [ ] clock_t
+- [x] clock_t
 - [X] time_t
 - [X] size_t
-- [ ] struct tm
+- [x] struct tm
 - [ ] clock_t clock(void);
-- [ ] double difftime(time_t time1, time_t time0);
-- [ ] time_t mktime(struct tm *timeptr);
+- [x] double difftime(time_t time1, time_t time0);
+- [x] time_t mktime(struct tm *timeptr);
 - [x] time_t time(time_t *timer);
 - [ ] char *asctime(const struct tm *timeptr);
 - [ ] char *ctime(const time_t *timer);

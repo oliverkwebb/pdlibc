@@ -8,9 +8,9 @@
 #define USHRT_MAX 0xFFFF
 #define UINT_MAX  0xFFFFFFFF
 
-#define SCHAR_MAX 0xEF
-#define SHRT_MAX  0xEFFF
-#define INT_MAX   0xEFFFFFFF
+#define SCHAR_MAX 0x7F
+#define SHRT_MAX  0x7FFF
+#define INT_MAX   0x7FFFFFFF
 
 #define SCHAR_MIN 0xFF
 #define SHRT_MIN  0xFFFF
@@ -24,7 +24,7 @@
 #else
 #define LONG_MIN  0xFFFFFFFFFFFFFFFF
 #define ULONG_MAX 0xFFFFFFFFFFFFFFFF
-#define LONG_MAX  0xEFFFFFFFFFFFFFFF
+#define LONG_MAX  0x7FFFFFFFFFFFFFFF
 #endif
 // System Call Wrappers are in X86
 #define CHAR_MAX  UCHAR_MAX

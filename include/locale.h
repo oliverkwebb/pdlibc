@@ -1,5 +1,6 @@
-#ifdef _LOCALE_H
+#ifndef _LOCALE_H
 #define _LOCALE_H
 
+#include <stddef.h>
 
 #endif

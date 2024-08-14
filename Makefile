@@ -4,11 +4,14 @@ CRTI_LIBCA=crti_$(LIBCA)
 export CC CFLAGS INCFLAGS LIBCA CRTI_LIBCA NOSTDFLAGS
 CC=gcc
 NOSTDFLAGS=-nostdlib -ffreestanding
-CFLAGS= -pedantic -Wall -Wl,--gc-sections -static -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-pie -Os -fdata-sections -ffunction-sections -fno-stack-protector $(MYCFLAGS)
+SHUTUP= -Wno-pointer-arith -Wno-discarded-qualifiers
+CFLAGS= -pedantic -Wall -static -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-pie -Os -fdata-sections -ffunction-sections -fno-stack-protector $(MYCFLAGS) $(SHUTUP)
 INCFLAGS= -I include/ -nostdinc
 CSOURCE=$(wildcard src/*.c)
 ASMSOURCE=$(wildcard src/*.S)
 OBJFILES= $(patsubst src/%.c, obj/%.o, $(CSOURCE)) $(patsubst src/%.S, obj/%.o, $(ASMSOURCE))
+
+Q=@
 
 .PHONY: all clean test withcrti
 
@@ -26,10 +29,12 @@ $(CRTI_LIBCA): $(LIBCA) src/crti.S
 
 # SPECIAL CASE: We need the syscall numbers from asm/unistd.h
 obj/syscalls.o: src/syscalls.S
-	$(CC) $(CFLAGS) $(NOSTDFLAGS) $< -c -o $@
+	$(Q)printf "CC %-20s -> $@\n" "$<"
+	$(Q)$(CC) $(CFLAGS) $(NOSTDFLAGS) $< -c -o $@
 
 obj/%.o: src/%.[cS]
-	$(CC) $(CFLAGS) $(INCFLAGS) $(NOSTDFLAGS) $< -c -o $@
+	$(Q)printf "CC %-20s -> $@\n" "$<"
+	$(Q)$(CC) $(CFLAGS) $(INCFLAGS) $(NOSTDFLAGS) $< -c -o $@
 
 clean:
 	rm -f $(LIBCA) $(CRTI_LIBCA) obj/*.o

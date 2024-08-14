@@ -8,24 +8,30 @@ static int atexit_regidx = 0;
 
 int atexit(void (*func)(void)) // TODO: Multiple Functions
 {
+	if (atexit_regidx > 31) return 1;
 	run_atexit[atexit_regidx++] = func;
 	return 0;
 }
 
-extern void ioflush(void); // TEMP
-
 extern int main(int argc, char **argv, char **envp);
 
-static char stdinbuf[BUFSIZ], stdoutbuf[BUFSIZ], stderrbuf[BUFSIZ];
+static char **environ;
 
 void ___runc(int argc, char **argv)
 {
-	stdin->buffer = stdinbuf;
-	stdout->buffer = stdoutbuf;
-	stderr->buffer = stderrbuf;
+	stdin->buffer  = malloc(BUFSIZ);
+	stdout->buffer = malloc(BUFSIZ);
+	stderr->buffer = malloc(BUFSIZ);
+	stdin->bufsize  = BUFSIZ;
+	stdout->bufsize = BUFSIZ;
+	stderr->bufsize = BUFSIZ;
+	stdin->bufmode  = _IOLBF;
+	stdout->bufmode = _IOLBF;
+	stderr->bufmode = _IOLBF;
 	stdin->fd  = 0;
 	stdout->fd = 1;
 	stderr->fd = 2;
+	environ = argv+(argc+1);
 
 	exit(main(argc, argv, argv+(argc+1)));
 }

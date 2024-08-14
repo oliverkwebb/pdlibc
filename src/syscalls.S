@@ -20,6 +20,7 @@ a: \
   jmp _syscall
 
 wrap(write)
+wrap(read)
 wrap(open)
 wrap(close)
 wrap(time)

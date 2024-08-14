@@ -8,9 +8,11 @@ FILE *stdin = &files[0], *stdout = &files[1], *stderr = &files[2]; // Init in __
 
 int fflush(FILE *stream)
 {
-	if (stream && !stream->bufrd && stream->bufidx) {
-		write(stream->fd, stream->buffer, stream->bufidx);
-		stream->bufidx = 0;
+	if (stream) {
+		if (!stream->bufrd && stream->bufidx) {
+			write(stream->fd, stream->buffer, stream->bufidx);
+			stream->bufidx = 0;
+		}
 	} else {
 		for (int i = 0; i < FOPEN_MAX; i++) {
 			FILE *stream = &files[i];
@@ -20,6 +22,11 @@ int fflush(FILE *stream)
 		}
 	}
 	return 0;
+}
+
+int fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
+	return read(stream->fd, ptr, size * nmemb) == size * nmemb; // TODO: Read buffering
 }
 
 int fwrite(void *ptr, size_t size, size_t nmemb, FILE *stream)

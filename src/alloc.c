@@ -60,7 +60,7 @@ void *malloc(size_t bytes) {
   if (!bytes) return NULL;
   if (!mstart) __malloc_init();
 
-  if (bytes < 64) {
+  if (bytes <= 64) {
     struct mheader *probe = mstart, *trail;
     while (probe && (probe->ismulti || (!~probe->whichsections))) {
       trail = probe;
@@ -118,4 +118,24 @@ void *calloc(size_t nmemb, size_t size)
 {
 	void *p = malloc(nmemb * size);
 	memset(p, 0, nmemb * size);
+	return p;
+}
+
+void mallinfo(void)
+{
+  struct mheader *probe = mstart;
+  int mp = 0, sp = 0;
+  while (probe) {
+  	if (probe->ismulti) {
+  		fprintf(stderr, "Large Alloc: %p\n", probe);
+  		mp++;
+  	}
+  	else {
+  		fprintf(stderr, "Split Alloc: %p, Blocks %p\n", probe,
+  			(void *)(probe->whichsections));
+  		sp++;
+  	}
+  	probe = probe->nextblock;
+  }
+  fprintf(stderr, "Single %d, Split %d, Total %d\n", mp, sp, mp+sp);
 }
