@@ -1,4 +1,5 @@
 LIBCA=libc.a
+OLIB=lib/
 CRTI_LIBCA=crti_$(LIBCA)
 
 export CC CFLAGS INCFLAGS LIBCA CRTI_LIBCA NOSTDFLAGS
@@ -13,19 +14,13 @@ OBJFILES= $(patsubst src/%.c, obj/%.o, $(CSOURCE)) $(patsubst src/%.S, obj/%.o, 
 
 Q=@
 
-.PHONY: all clean test withcrti
+.PHONY: all clean test
 
-all: $(LIBCA) withcrti
+all: $(LIBCA)
 
 $(LIBCA): $(OBJFILES)
 	rm -f $(LIBCA)
-	ar rs $@ $^
-
-withcrti: $(CRTI_LIBCA)
-
-$(CRTI_LIBCA): $(LIBCA) src/crti.S
-	rm -f $(CRTI_LIBCA)
-	ar rs $(CRTI_LIBCA) obj/*.o
+	ar rs $(OLIB)$@ $^
 
 # SPECIAL CASE: We need the syscall numbers from asm/unistd.h
 obj/syscalls.o: src/syscalls.S
@@ -37,7 +32,7 @@ obj/%.o: src/%.[cS]
 	$(Q)$(CC) $(CFLAGS) $(INCFLAGS) $(NOSTDFLAGS) $< -c -o $@
 
 clean:
-	rm -f $(LIBCA) $(CRTI_LIBCA) obj/*.o
+	rm -f $(OLIB)* obj/*.o
 
-test: withcrti
+test: $(LIBCA)
 	@./test.sh

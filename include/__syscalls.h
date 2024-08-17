@@ -7,6 +7,8 @@ extern size_t write(int, void *, int);
 extern void _Exit(int);
 extern int kill(int, int);
 extern int getpid(void);
+extern int open(char *, int, ...);
+extern int close(int);
 extern void *mmap(void *, size_t, int, int, int, long);
 extern int munmap(void *, size_t);
 #endif

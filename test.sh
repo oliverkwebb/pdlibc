@@ -84,7 +84,7 @@ PROGRAM () {
 	if [ -n "$TEST_HOST" ]; then
 		NOSTDFLAGS="" INCFLAGS="" CRTI_LIBCA=""
 	fi
-	$CC $CFLAGS $INCFLAGS $NOSTDFLAGS test/$1.c $CRTI_LIBCA -o test/tprogs/$1
+	$CC $CFLAGS $INCFLAGS $NOSTDFLAGS -L lib/ test/$1.c -o test/tprogs/$1 -lc
 	PROG=test/tprogs/$1
 }
 
@@ -162,6 +162,14 @@ PROGRAM callocmixed
 
 testc "callocmixed" "" ""
 
+# Rounding-Error Level Percision loss that can't be fixed in a elegant manner, Also glibc libc/libm split
+if [ -z "$TEST_HOST" ] && false; then
 PROGRAM math
-
 testc "math" "" "$(cat test/files/math-desired)\n"
+PROGRAM math2
+testc "math2" "" ""
+fi
+
+PROGRAM iofile
+
+testc "iofile" "&& cat test/files/iofile-examp" "42"

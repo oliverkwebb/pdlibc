@@ -6,7 +6,7 @@
 static void (*run_atexit[32])(void);
 static int atexit_regidx = 0;
 
-int atexit(void (*func)(void)) // TODO: Multiple Functions
+int atexit(void (*func)(void))
 {
 	if (atexit_regidx > 31) return 1;
 	run_atexit[atexit_regidx++] = func;

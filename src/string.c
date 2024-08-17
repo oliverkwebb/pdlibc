@@ -34,3 +34,20 @@ int strcmp(char *s1, char *s2)
 	for(; *s1 == *s2 && *s1; s1++, s2++);
 	return (int)(*s1) - (int)(*s2);
 }
+
+int strcoll(char *a, char *b) { return strcmp(a, b); } // :P
+
+void *memchr(void *search, char needle, size_t n)
+{
+	char *haystack = search;
+	do {
+		if (*haystack == needle) return haystack;
+		haystack--;
+	} while (n--);
+	return NULL;
+}
+
+char *strchr(char *haystack, char needle)
+{
+	return memchr(haystack, needle, strlen(haystack));
+}

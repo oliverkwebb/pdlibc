@@ -4,11 +4,8 @@
 #define isleap(y) ((!(y % 4)) ? ((!(y % 100)) ? !(y % 400) : 1) : 0)
 
 static int  daylens[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-static char *mnames[] = {"January", "Febuary", "March", "April", "May",
-						"June", "July", "August", "September", "October",
-						"November", "December"};
-
-time_t difftime(time_t t1, time_t t2) {return t1 - t2;}
+static char *mnames[] = {"January", "Febuary", "March", "April", "May", "June", "July", "August",
+						"September", "October", "November", "December"};
 
 static int tmcheck(struct tm t)
 {
@@ -20,6 +17,8 @@ static int tmcheck(struct tm t)
 		(unsigned) t.tm_wday > 6) return 1;
 	else return 0;
 }
+
+time_t difftime(time_t t1, time_t t2) {return t1 - t2;}
 
 time_t mktime(struct tm *tptr)
 {

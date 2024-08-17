@@ -1,2 +1,2 @@
 #!/bin/sh
-gcc -pedantic -Wall -Wl,--gc-sections -static -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-pie -Os -fdata-sections -ffunction-sections -fno-stack-protector -I include/ -nostdinc -nostdlib -ffreestanding $@ crti_libc.a
+gcc -pedantic -Wall -Wl,--gc-sections -static -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-pie -Os -fdata-sections -ffunction-sections -fno-stack-protector -I include/ -nostdinc -nostdlib -ffreestanding $@ lib/libc.a

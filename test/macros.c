@@ -16,6 +16,15 @@ int main(void)
 
 	printf("%d, %d, %d, %d", EXIT_FAILURE, EXIT_SUCCESS, NULL, EOF);
 
+	if ((unsigned char)(UCHAR_MAX+1)  > (unsigned char)(UCHAR_MAX)  ||
+		(unsigned short)(USHRT_MAX+1) > (unsigned short)(USHRT_MAX) ||
+		(unsigned int)(UINT_MAX+1)    > (unsigned int)(USHRT_MAX)   ||
+		(unsigned long)(ULONG_MAX+1)  > (unsigned long)(ULONG_MAX)  ||
+		(short)(SHRT_MAX+1) > (short)(USHRT_MAX) ||
+		(int)(INT_MAX+1)    > (int)(INT_MAX)     ||
+		(long)(LONG_MAX+1)  > (long)(LONG_MAX)
+	) printf("asdsadasdasdads");
+
 	// I DO NOT CARE ABOUT THE VALUE; just be there
 	null(0,
 // stdio.h
@@ -24,8 +33,7 @@ int main(void)
 // errno.h
  		EDOM, ERANGE,
 // limits.h
-		CHAR_BIT, UCHAR_MAX, SCHAR_MAX, CHAR_MAX, SHRT_MIN, USHRT_MAX, SHRT_MAX, INT_MIN, UINT_MAX, INT_MAX,
-		LONG_MIN, ULONG_MAX, LONG_MAX, MB_LEN_MAX,
+		CHAR_BIT, UCHAR_MAX, SCHAR_MAX, CHAR_MAX, SHRT_MIN, INT_MIN, LONG_MIN, MB_LEN_MAX,
 // float.h
 		DBL_DIG, DBL_EPSILON, DBL_MANT_DIG, DBL_MAX, DBL_MAX_10_EXP, DBL_MAX_EXP, DBL_MIN,
 		DBL_MIN_10_EXP, DBL_MIN_EXP, FLT_DIG, FLT_EPSILON, FLT_MANT_DIG, FLT_MAX, FLT_MAX_10_EXP,
