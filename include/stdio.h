@@ -47,7 +47,6 @@ extern FILE *freopen(char *, char *, FILE *);
 extern int fclose(FILE *);
 
 extern int rename(char *, char *);
-extern int lseek(int, long, int); // Not in C89, needed for fseek()
 extern int fseek(FILE *, long, int);
 extern void rewind(FILE *);
 
@@ -61,6 +60,9 @@ extern int fgetc(FILE *);
 #define getc(f) fgetc((f));
 extern int getchar(void);
 
-extern void setvbuf(FILE *, char *, int, size_t);
+extern int setvbuf(FILE *, char *, int, size_t);
+
+extern const char *strerror(int);
+extern       void perror(char *);
 
 #endif

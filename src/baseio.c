@@ -1,7 +1,13 @@
-#include <__syscalls.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+// Syscalls
+extern size_t  read(int, void *, int);
+extern size_t write(int, void *, int);
+extern int     open(char *, int, ...);
+extern int    close(int);
+extern int    lseek(int, long, int);
 
 static FILE files[FOPEN_MAX];
 
@@ -25,10 +31,22 @@ int fflush(FILE *stream)
 	return 0;
 }
 
-void setvbuf(FILE *stream, char *buf, int mode, size_t size)
+int setvbuf(FILE *stream, char *buf, int mode, size_t size)
 {
+	if (mode != _IONBF && mode != _IOFBF && mode != _IOLBF) return EOF;
 	stream->bufmode = mode;
+	if (buf) {
+			if (!stream->cstbuf) free(stream->buffer);
+			stream->buffer  = buf;
+			stream->cstbuf  = 1;
+		} else if (size) {
+			free(stream->buffer);
+			stream->buffer  = malloc(size);
+		}
+	return 0;
 }
+
+void setbuf(FILE *stream, char *buf, size_t size) { setvbuf(stream, buf, stream->bufmode, size); }
 
 static FILE *__fopen(const char *filename, const char *flags, FILE *reopen)
 {

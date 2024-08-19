@@ -1,30 +1,34 @@
-## [x] = in headers; [X] = tested and fully C89 complient
-- [X] <assert.h>
+## [x] = in headers; [N] nolibc compatible; [X] = tested and fully C89 complient
 - [X] <ctype.h>
-- [X] <float.h>
-- [X] <limits.h>
-- [X] <locale.h>
 - [X] <stdarg.h>
-- [X] <stddef.h>
-- [x] <errno.h>
+- [X] <errno.h>
+- [ ] <stdio.h>
+- [ ] <stdlib.h>
+- [N] <string.h>
+- [N] <time.h>
+C89
+- [X] <assert.h>
 - [ ] <math.h>
 - [ ] <setjmp.h>
 - [ ] <signal.h>
-- [ ] <stdio.h>
-- [ ] <stdlib.h>
-- [ ] <string.h>
-- [ ] <time.h>
+- [X] <stddef.h>
+- [X] <float.h>
+- [X] <limits.h>
+- [X] <locale.h>
 
-- [x] EDOM
-- [x] ERANGE
-- [x] errno
+- [X] errno
+C89
+- [X] EDOM
+- [X] ERANGE
 
+C89
 - [X] NULL
 - [x] offsetof( type,  member-designator)
 - [X] ptrdiff_t
 - [X] size_t
 - [X] wchar_t
 
+C89
 - [X] NDEBUG
 - [X] void assert(int expression);
 
@@ -42,17 +46,19 @@
 - [X] int tolower(int c);
 - [X] int toupper(int c);
 
-- [X] LC_ALL
-- [X] LC_COLLATE
-- [X] LC_CTYPE
-- [X] LC_MONETARY
-- [X] LC_NUMERIC
-- [X] LC_TIME
+C89
+- [x] LC_ALL
+- [x] LC_COLLATE
+- [x] LC_CTYPE
+- [x] LC_MONETARY
+- [x] LC_NUMERIC
+- [x] LC_TIME
 - [X] NULL
-- [X] struct lconv
-- [X] char *setlocale(int category, const char *locale);
-- [X] struct lconv *localeconv(void);
+- [x] struct lconv
+- [x] char *setlocale(int category, const char *locale);
+- [x] struct lconv *localeconv(void);
 
+C89
 - [X] HUGE_VAL
 - [X] double cos(double x);
 - [X] double sin(double x);
@@ -77,6 +83,7 @@
 - [ ] double floor(double x);
 - [ ] double fmod(double x, double y);
 
+C89
 - [x] SIGABRT
 - [x] SIGFPE
 - [x] SIGILL
@@ -98,17 +105,21 @@
 - [X] type va_arg(va_list ap,  type);
 - [X] void va_end(va_list ap);
 
-- [X] BUFSIZ
 - [X] EOF
+- [X] NULL
 - [X] FILE
-- [X] FILENAME_MAX
-- [X] FOPEN_MAX
 - [x] _IOFBF
 - [x] _IOLBF
 - [x] _IONBF
+- [x] int fclose(FILE *stream);
+- [x] FILE *fopen(const char *filename, const char *mode);
+C89
+- [X] BUFSIZ
+- [X] FOPEN_MAX
 - [ ] fpos_t
+- [X] FILENAME_MAX
 - [ ] L_tmpnam
-- [X] NULL
+- [x] void setbuf(FILE *stream, char *buf);
 - [X] SEEK_CUR
 - [X] SEEK_END
 - [X] SEEK_SET
@@ -121,12 +132,9 @@
 - [x] int rename(const char *old, const char *new);
 - [ ] FILE *tmpfile(void);
 - [ ] char *tmpnam(char *s);
-- [x] int fclose(FILE *stream);
 - [x] int fflush(FILE *stream);
-- [x] FILE *fopen(const char *filename, const char *mode);
 - [x] FILE *freopen(const char *filename, const char *mode, FILE *stream);
-- [ ] void setbuf(FILE *stream, char *buf);
-- [ ] int setvbuf(FILE *stream, char *buf, int mode, size_t size);
+- [x] int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 - [ ] int fprintf(FILE *stream, const char *format, ...);
 - [ ] int fscanf(FILE *stream, const char *format, ...);
 - [X] int printf(const char *format, ...);
@@ -199,33 +207,35 @@
 
 - [X] NULL
 - [X] size_t
-- [x] void *memcpy(void *s1, const void *s2, size_t n);
-- [ ] void *memmove(void *s1, const void *s2, size_t n);
-- [ ] char *strcpy(char *s1, const char *s2);
-- [ ] char *strncpy(char *s1, const char *s2, size_t n);
-- [ ] char *strcat(char *s1, const char *s2);
-- [ ] char *strncat(char *s1, const char *s2, size_t n);
-- [ ] int memcmp(const void *s1, const void *s2, size_t n);
-- [x] int strcmp(const char *s1, const char *s2);
-- [ ] int strcoll(const char *s1, const char *s2);
-- [ ] int strncmp(const char *s1, const char *s2, size_t n);
-- [ ] size_t strxfrm(char *s1, const char *s2, size_t n);
-- [x] void *memchr(const void *s, int c, size_t n);
-- [x] char *strchr(const char *s, int c);
+- [X] void *memcpy(void *s1, const void *s2, size_t n);
+- [X] void *memmove(void *s1, const void *s2, size_t n);
+- [X] char *strcpy(char *s1, const char *s2);
+- [X] char *strcat(char *s1, const char *s2);
+- [X] int memcmp(const void *s1, const void *s2, size_t n);
+- [X] int strcmp(const char *s1, const char *s2);
+- [X] void *memchr(const void *s, int c, size_t n);
+- [X] char *strchr(const char *s, int c);
+- [X] void *memset(void *s, int c, size_t n);
+- [X] size_t strlen(const char *s);
+- [X] int strncmp(const char *s1, const char *s2, size_t n);
+- [X] char *strncpy(char *s1, const char *s2, size_t n);
+- [x] char *strncat(char *s1, const char *s2, size_t n);
+C89
+- [x] char *strerror(int errnum);
+- [X] size_t strxfrm(char *s1, const char *s2, size_t n);
+- [X] int strcoll(const char *s1, const char *s2);
 - [ ] size_t strcspn(const char *s1, const char *s2);
 - [ ] char *strpbrk(const char *s1, const char *s2);
-- [ ] char *strrchr(const char *s, int c);
+- [x] char *strrchr(const char *s, int c);
 - [ ] size_t strspn(const char *s1, const char *s2);
 - [ ] char *strstr(const char *s1, const char *s2);
 - [ ] char *strtok(char *s1, const char *s2);
-- [x] void *memset(void *s, int c, size_t n);
-- [x] char *strerror(int errnum);
-- [X] size_t strlen(const char *s);
 
-- [x] CLK_TCK
 - [X] NULL
-- [x] clock_t
 - [X] time_t
+C89
+- [x] CLK_TCK
+- [x] clock_t
 - [X] size_t
 - [x] struct tm
 - [ ] clock_t clock(void);
@@ -238,6 +248,7 @@
 - [ ] struct tm *localtime(const time_t *timer);
 - [ ] size_t strftime(char *s, size_t maxsize, const char *format, const struct tm *timeptr);
 
+C89
 - [X] #define CHAR_BIT                         8
 - [X] #define CHAR_MAX    UCHAR_MAX  or SCHAR_MAX
 - [X] #define CHAR_MIN            0  or SCHAR_MIN
@@ -255,7 +266,7 @@
 - [X] #define ULONG_MAX               4294967295
 - [X] #define USHRT_MAX                    65535
 
-
+C89
 - [X] #define DBL_DIG                         10
 - [X] #define DBL_EPSILON                   1E-9
 - [X] #define DBL_MANT_DIG
@@ -285,4 +296,3 @@
 - [X] #define LDBL_MIN                     1E-37
 - [X] #define LDBL_MIN_10_EXP                -37
 - [X] #define LDBL_MIN_EXP
-

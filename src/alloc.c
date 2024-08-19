@@ -1,7 +1,9 @@
-#include <__syscalls.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+extern void  *mmap(void *, size_t, int, int, int, long);
+extern int  munmap(void *, size_t);
 
 /* PAGE HEADER: 64 bytes
 0x00 -> 0x08: long long PAGE_TYPE (SPLIT=0; WHOLE=1; MP=2)
@@ -121,6 +123,7 @@ void *calloc(size_t nmemb, size_t size)
 	return p;
 }
 
+// Debug function
 void mallinfo(void)
 {
   struct mheader *probe = mstart;

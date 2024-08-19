@@ -82,9 +82,10 @@ LONGSTRING="$(printf -- "a%150s" potato)"
 PROGRAM () {
 	echo "PROGRAM: $1"
 	if [ -n "$TEST_HOST" ]; then
-		NOSTDFLAGS="" INCFLAGS="" CRTI_LIBCA=""
+		$CC $CFLAGS test/$1.c -o test/tprogs/$1
+	else
+		$CC $CFLAGS $INCFLAGS $NOSTDFLAGS -L lib/ test/$1.c -o test/tprogs/$1 -lc
 	fi
-	$CC $CFLAGS $INCFLAGS $NOSTDFLAGS -L lib/ test/$1.c -o test/tprogs/$1 -lc
 	PROG=test/tprogs/$1
 }
 
@@ -173,3 +174,7 @@ fi
 PROGRAM iofile
 
 testc "iofile" "&& cat test/files/iofile-examp" "42"
+
+PROGRAM errno
+
+testc "errno" "2>&1 | grep -c Meow" "1\n"

@@ -1,11 +1,12 @@
 #include <time.h>
-#include <__syscalls.h>
+extern time_t time(time_t *);
 
 #define isleap(y) ((!(y % 4)) ? ((!(y % 100)) ? !(y % 400) : 1) : 0)
 
 static int  daylens[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 static char *mnames[] = {"January", "Febuary", "March", "April", "May", "June", "July", "August",
 						"September", "October", "November", "December"};
+static char   *days[] = {"Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday", "Sunday"};
 
 static int tmcheck(struct tm t)
 {

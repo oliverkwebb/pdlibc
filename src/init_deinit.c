@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <__syscalls.h>
+
+extern void _Exit(int);
 
 static void (*run_atexit[32])(void);
 static int atexit_regidx = 0;
