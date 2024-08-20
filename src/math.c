@@ -1,12 +1,13 @@
 #include <math.h>
 // The six transcendental functions everything can be contructed from:
 // sin(), cos(), sqrt(), atan(), log(), exp() (-> pow(e,x) -> pow(2, x*ln2(e)))
+// TODO: ALL THIS STUFF IS VOLATILE AND EXPLODES IF YOU LOOK AT IT WRONG (need to figure out what asm is at fault)
 
 double sqrt(double x) { __asm__ ("sqrtsd %0, %0" : "=x"(x) : "0"(x)); return x; }
 
 double sin(double x)  { __asm__ ("fsin"          : "=t"(x) : "0"(x)); return x; }
 double cos(double x)  { return sin(x + M_PI /2); }
-double tan(double x)             { return sin(x)/cos(x); }
+double tan(double x)  { return sin(x)/cos(x); }
 
 double asin(double x) { return ( x==-1 || x==1 ) ? M_PI / 2 * x : atan(x/sqrt(1-x*x)); }
 double acos(double x) { return !x ? 0 : M_PI/2-asin(x); }
