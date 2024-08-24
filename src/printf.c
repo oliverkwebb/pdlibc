@@ -104,6 +104,7 @@ int vfprintf(FILE *stream, char *format, va_list va)
 		enum {CHAR, STRING, PTR,
 			USHORT, SHORT, UINT, INT, ULONG, LONG, ULLONG, LLONG,
 			FLT, DBL, LDBL, PERCENT, ERROR} type;
+		enum {EXTEND, HALF, LONGEXT, NORMAL} typemanip;
 		int initial;
 		enum {NONE, SPACE, ZEROS} initialpadding;
 		enum {DEF, PLUS,  MINUS} forcedplusormin;
@@ -119,6 +120,7 @@ int vfprintf(FILE *stream, char *format, va_list va)
 			int fsiz = 0;
 			do {
 
+			pf.typemanip = NORMAL;
 			pf.initial = 0;
 			pf.initialpadding = DEF;
 			pf.forcedplusormin = NONE;
@@ -139,7 +141,20 @@ int vfprintf(FILE *stream, char *format, va_list va)
 			if      (probe[1] == '+') { fsiz++; pf.forcedplusormin = PLUS;  }
 			else if (probe[1] == '-') { fsiz++; pf.forcedplusormin = MINUS; }
 			// Numbers (which I'll read agnosticly as [##][.##] and discard the parts that don't matter :P)
-			
+			// From here we either can have a:
+			//   Number
+			//   Decimal Point
+			//   Something else (formatting/length specifer)
+			// TODO
+			if (!probe[fsiz]) {
+				pf.type = ERROR;
+				break;
+			} else if (probe[fsiz] == '.') {
+				fsiz++;
+			}
+			// From here we either can have a:
+			//   Number
+			//   Something else (formatting/length specifer)
 			
 			if (probe[fsiz] == 's') { pf.type = STRING;  break; }
 			else if (probe[fsiz] == 'f') { pf.type = DBL;  break; }
@@ -167,7 +182,7 @@ int vfprintf(FILE *stream, char *format, va_list va)
 
 			case CHAR: fputc((int)(va_arg(va, char)), stream); break;
 
-			case STRING: fputs(va_arg(va, char *) ? : "", stream); break;
+			case STRING: fputs(va_arg(va, char *) ? : "(nul)", stream); break;
 			case PTR:
 				; void *pt = va_arg(va, void *);
 				if (!pt) { fputs("(nil)", stream); break; }

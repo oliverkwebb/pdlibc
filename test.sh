@@ -178,3 +178,12 @@ testc "iofile" "&& cat test/files/iofile-examp" "42"
 PROGRAM errno
 
 testc "errno" "2>&1 | grep -c Meow" "1\n"
+
+PROGRAM nconv
+
+testc "atoi" "" "340 -1\n"
+
+PROGRAM env
+
+export UwU="32" NYAH=" 53"
+testc "getenv" "" "32  53 (nul)\n"

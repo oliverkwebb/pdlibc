@@ -6,16 +6,22 @@
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
 
-extern int abs(int n);
-extern long labs(long n);
+extern int  abs(int);
+extern long labs(long);
+
+extern long atol(char *);
+extern int  atoi(char *);
+extern long strtol(char *, char **, int);
 
 extern void exit(int status);
-extern int atexit(void (*func)(void));
+extern int  atexit(void (*func)(void));
 extern void abort(void);
 
 extern void *malloc(size_t);
 extern void *calloc(size_t, size_t);
 extern void free(void *);
+
+extern char *getenv(char *name);
 
 #define MB_CUR_MAX 1
 

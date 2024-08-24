@@ -2,8 +2,8 @@
 - [X] <ctype.h>
 - [X] <stdarg.h>
 - [X] <errno.h>
-- [ ] <stdio.h>
-- [ ] <stdlib.h>
+- [N] <stdio.h>
+- [N] <stdlib.h>
 - [N] <string.h>
 - [N] <time.h>
 C89
@@ -112,7 +112,16 @@ C89
 - [x] _IOLBF
 - [x] _IONBF
 - [x] int fclose(FILE *stream);
+- [x] int fflush(FILE *stream);
+- [x] FILE *freopen(const char *filename, const char *mode, FILE *stream);
+- [x] int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 - [x] FILE *fopen(const char *filename, const char *mode);
+- [x] int fputc(int c, FILE *stream);
+- [X] int fputs(const char *s, FILE *stream);
+- [x] int getc(FILE *stream);
+- [x] size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+- [X] size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+- [x] int getchar(void);
 C89
 - [X] BUFSIZ
 - [X] FOPEN_MAX
@@ -132,9 +141,6 @@ C89
 - [x] int rename(const char *old, const char *new);
 - [ ] FILE *tmpfile(void);
 - [ ] char *tmpnam(char *s);
-- [x] int fflush(FILE *stream);
-- [x] FILE *freopen(const char *filename, const char *mode, FILE *stream);
-- [x] int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 - [ ] int fprintf(FILE *stream, const char *format, ...);
 - [ ] int fscanf(FILE *stream, const char *format, ...);
 - [X] int printf(const char *format, ...);
@@ -146,17 +152,11 @@ C89
 - [ ] int vsprintf(char *s, const char *format, va_list arg);
 - [x] int fgetc(FILE *stream);
 - [ ] char *fgets(char *s, int n, FILE *stream);
-- [x] int fputc(int c, FILE *stream);
-- [X] int fputs(const char *s, FILE *stream);
-- [x] int getc(FILE *stream);
-- [x] int getchar(void);
 - [ ] char *gets(char *s);
 - [x] int putc(int c, FILE *stream);
 - [X] int putchar(int c);
 - [X] int puts(const char *s);
 - [ ] int ungetc(int c, FILE *stream);
-- [x] size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-- [X] size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 - [ ] int fgetpos(FILE *stream, fpos_t *pos);
 - [x] int fseek(FILE *stream, long int offset, int whence);
 - [ ] int fsetpos(FILE *stream, const fpos_t *pos);
@@ -165,37 +165,38 @@ C89
 - [ ] void clearerr(FILE *stream);
 - [x] int feof(FILE *stream);
 - [ ] int ferror(FILE *stream);
-- [ ] void perror(const char *s);
+- [X] void perror(const char *s);
 
 - [X] EXIT_FAILURE
 - [X] EXIT_SUCCESS
+- [X] void abort(void);
 - [X] MB_CUR_MAX
 - [X] NULL
+- [X] size_t
+- [X] wchar_t
+- [X] int atoi(const char *nptr);
+- [X] long int atol(const char *nptr);
+- [X] void *calloc(size_t nmemb, size_t size);
+- [X] void free(void *ptr);
+- [X] void *malloc(size_t size);
+- [x] void *realloc(void *ptr, size_t size);
+- [X] int atexit(void (*func)(void));
+- [X] void exit(int status);
+- [X] char *getenv(const char *name);
+- [X] int abs(int j);
+C89
+- [ ] unsigned long int strtoul(const char *nptr, char **endptr, int base);
+- [ ] double strtod(const char *nptr, char **endptr);
+- [ ] long int strtol(const char *nptr, char **endptr, int base);
+- [ ] double atof(const char *nptr);
 - [ ] RAND_MAX
 - [ ] div_t
 - [ ] ldiv_t
-- [X] size_t
-- [X] wchar_t
-- [ ] double atof(const char *nptr);
-- [ ] int atoi(const char *nptr);
-- [ ] long int atol(const char *nptr);
-- [ ] double strtod(const char *nptr, char **endptr);
-- [ ] long int strtol(const char *nptr, char **endptr, int base);
-- [ ] unsigned long int strtoul(const char *nptr, char **endptr, int base);
 - [ ] int rand(void);
 - [ ] void srand(unsigned int seed);
-- [ ] void *calloc(size_t nmemb, size_t size);
-- [X] void free(void *ptr);
-- [X] void *malloc(size_t size);
-- [ ] void *realloc(void *ptr, size_t size);
-- [X] void abort(void);
-- [X] int atexit(void (*func)(void));
-- [X] void exit(int status);
-- [ ] char *getenv(const char *name);
 - [ ] int system(const char *string);
 - [ ] void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 - [ ] void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
-- [X] int abs(int j);
 - [ ] div_t div(int numer, int denom);
 - [X] long int labs(long int j);
 - [ ] ldiv_t ldiv(long int numer, long int denom);

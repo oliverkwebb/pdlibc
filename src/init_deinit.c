@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -18,6 +19,16 @@ extern int main(int argc, char **argv, char **envp);
 
 static char **environ;
 
+char *getenv(char *name) {
+	char **env = environ;
+	while (*env) {
+		if (!strncmp(*env, name, strlen(name)))
+			return *env + strlen(name) + 1;
+		env++;
+	}
+	return NULL; // NULL
+}
+
 void ___runc(int argc, char **argv)
 {
 	stdin->buffer  = malloc(BUFSIZ);
@@ -33,6 +44,8 @@ void ___runc(int argc, char **argv)
 	stdout->fd = 1;
 	stderr->fd = 2;
 	environ = argv+(argc+1);
+
+	volatile char a[250];
 
 	exit(main(argc, argv, argv+(argc+1)));
 }
