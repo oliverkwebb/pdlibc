@@ -24,6 +24,7 @@ extern void free(void *);
 extern char *getenv(char *name);
 
 extern void qsort(void *, size_t, size_t, int (*com)(const void *, const void *));
+extern void *bsearch(const void *, const void *, size_t, size_t, int (*comp)(const void *, const void *));
 
 #define MB_CUR_MAX 1
 

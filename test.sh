@@ -189,4 +189,4 @@ testc "atoi" "" "340 -1\n"
 
 PROGRAM sort
 
-testc "qsort" "f g h b c a" "a b c"
+testc "qsort" "f g h b c a" "a b c f g h "
