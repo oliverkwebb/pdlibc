@@ -169,6 +169,10 @@ PROGRAM math
 testc "math" "" "$(cat test/files/math-desired)\n"
 PROGRAM math2
 testc "math2" "" ""
+PROGRAM env
+export UwU="32" NYAH=" 53"
+testc "getenv" "" "32  53 (null)\n"
+
 fi
 
 PROGRAM iofile
@@ -183,7 +187,6 @@ PROGRAM nconv
 
 testc "atoi" "" "340 -1\n"
 
-PROGRAM env
+PROGRAM sort
 
-export UwU="32" NYAH=" 53"
-testc "getenv" "" "32  53 (nul)\n"
+testc "qsort" "f g h b c a" "a b c"
