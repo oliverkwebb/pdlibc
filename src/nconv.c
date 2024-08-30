@@ -27,5 +27,23 @@ long strtol(char *num, char **endptr, int base)
 	return isneg ? -tracker : tracker;
 }
 
+unsigned long strtoul(char *num, char **endptr, int base)
+{
+	unsigned long tracker = 0;
+
+	while (*num && isdigit(*num)) {
+		tracker *= 10;
+		tracker += *num - '0';
+		num++;
+	}
+
+	if (tracker >= LONG_MAX)
+		errno = ERANGE;
+
+	if (endptr) *endptr = num;
+}
+
+int strtod(char *n, char **endptr) { return strtol(n, endptr, 10); }
+
 long atol(char *num) {return strtol(num, NULL, 10);}
 int atoi(char *num) {return strtol(num, NULL, 10);}

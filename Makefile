@@ -3,10 +3,10 @@ OLIB=lib/
 CRTI_LIBCA=crti_$(LIBCA)
 
 export CC CFLAGS INCFLAGS LIBCA CRTI_LIBCA NOSTDFLAGS
-CC=gcc
+CC=c99
 NOSTDFLAGS=-nostdlib -ffreestanding
 SHUTUP= -Wno-pointer-arith -Wno-discarded-qualifiers
-CFLAGS= -pedantic -Wall -static -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-pie -Os -fdata-sections -ffunction-sections -fno-stack-protector $(MYCFLAGS) $(SHUTUP)
+CFLAGS= -pedantic -Wall -funsigned-char -static -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-pie -Os -fdata-sections -ffunction-sections -fno-stack-protector $(MYCFLAGS) $(SHUTUP)
 INCFLAGS= -I include/ -nostdinc
 CSOURCE=$(wildcard src/*.c)
 ASMSOURCE=$(wildcard src/*.S)

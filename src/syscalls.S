@@ -30,6 +30,7 @@ wrap(getpid) // raise
 wrap(rename)
 wrap(mmap)
 wrap(munmap)
+wrap(execve)
 
 .global _Exit
 _Exit:

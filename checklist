@@ -47,16 +47,16 @@ C89
 - [X] int toupper(int c);
 
 C89
-- [x] LC_ALL
-- [x] LC_COLLATE
-- [x] LC_CTYPE
-- [x] LC_MONETARY
-- [x] LC_NUMERIC
-- [x] LC_TIME
+- [X] LC_ALL
+- [X] LC_COLLATE
+- [X] LC_CTYPE
+- [X] LC_MONETARY
+- [X] LC_NUMERIC
+- [X] LC_TIME
 - [X] NULL
-- [x] struct lconv
-- [x] char *setlocale(int category, const char *locale);
-- [x] struct lconv *localeconv(void);
+- [X] struct lconv
+- [X] char *setlocale(int category, const char *locale);
+- [X] struct lconv *localeconv(void);
 
 C89
 - [X] HUGE_VAL
@@ -64,23 +64,23 @@ C89
 - [X] double sin(double x);
 - [X] double sqrt(double x);
 - [X] double fabs(double x);
-- [X] double log(double x);
+- [ ] double log(double x);
 - [X] double atan(double x);
 - [X] double atan2(double y, double x);
 - [X] double tan(double x);
-- [X] double log10(double x);
+- [ ] double log10(double x);
 - [x] double acos(double x);
 - [x] double asin(double x);
-- [x] double cosh(double x);
-- [x] double sinh(double x);
-- [x] double tanh(double x);
-- [x] double exp(double x);
+- [ ] double cosh(double x);
+- [ ] double sinh(double x);
+- [ ] double tanh(double x);
+- [ ] double exp(double x);
 - [x] double ldexp(double x, int exp);
-- [x] double pow(double x, double y);
-- [ ] double frexp(double value, int *exp);
+- [ ] double pow(double x, double y);
+- [x] double frexp(double value, int *exp);
 - [ ] double modf(double value, double *iptr);
-- [ ] double ceil(double x);
-- [ ] double floor(double x);
+- [x] double ceil(double x);
+- [x] double floor(double x);
 - [ ] double fmod(double x, double y);
 
 C89
@@ -115,7 +115,7 @@ C89
 - [x] int fflush(FILE *stream);
 - [x] FILE *freopen(const char *filename, const char *mode, FILE *stream);
 - [x] int setvbuf(FILE *stream, char *buf, int mode, size_t size);
-- [x] FILE *fopen(const char *filename, const char *mode);
+- [X] FILE *fopen(const char *filename, const char *mode);
 - [x] int fputc(int c, FILE *stream);
 - [X] int fputs(const char *s, FILE *stream);
 - [x] int getc(FILE *stream);
@@ -192,10 +192,10 @@ C89
 - [ ] RAND_MAX
 - [ ] div_t
 - [ ] ldiv_t
-- [ ] int rand(void);
-- [ ] void srand(unsigned int seed);
-- [ ] int system(const char *string);
-- [ ] void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
+- [X] int rand(void);
+- [X] void srand(unsigned int seed);
+- [x] int system(const char *string);
+- [X] void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 - [X] void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 - [ ] div_t div(int numer, int denom);
 - [X] long int labs(long int j);

@@ -2,6 +2,7 @@
 #define _STDIO_H
 
 #include <stddef.h>
+#include <unimplemented.h>
 
 typedef struct __FILE {
 	int fd;

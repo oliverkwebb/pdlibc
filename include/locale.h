@@ -27,6 +27,7 @@ struct lconv {
 #undef  C
 };
 
+// :P
 #define LC_ALL      NULL
 #define LC_COLLATE  NULL
 #define LC_CTYPE    NULL

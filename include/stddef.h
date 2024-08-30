@@ -6,6 +6,6 @@ typedef unsigned long long ptrdiff_t;
 typedef unsigned int wchar_t;
 
 #define NULL (void *)0
-#define offsetof(type, member) __builtin_offsetof(type, member);
+#define offsetof(type, member) __builtin_offsetof(type, member)
 
 #endif

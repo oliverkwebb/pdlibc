@@ -1,7 +1,8 @@
 #include <signal.h>
 
-extern int   kill(int, int);
-extern int getpid(void);
+typedef struct siginfo_t siginfo_t;
+extern int      kill(int, int);
+extern int    getpid(void);
 
 int raise(int sig)
 {
@@ -12,3 +13,4 @@ void abort(void)
 {
 	raise(SIGABRT);
 }
+

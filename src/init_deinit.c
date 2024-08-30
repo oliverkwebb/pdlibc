@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 extern void _Exit(int);
+extern int execve(const char *, char **, char **);
 
 static void (*run_atexit[32])(void);
 static int atexit_regidx = 0;
@@ -17,8 +18,8 @@ int atexit(void (*func)(void))
 
 extern int main(int argc, char **argv, char **envp);
 
+// Environ Handling also happens here, including system()
 static char **environ;
-
 char *getenv(char *name) {
 	char **env = environ;
 	while (*env) {
@@ -27,6 +28,12 @@ char *getenv(char *name) {
 		env++;
 	}
 	return NULL; // NULL
+}
+
+int system(const char *cmd)
+{
+	char *args[] = {"-c", (char *)cmd, NULL};
+	return execve("/bin/sh", args, environ);
 }
 
 void ___runc(int argc, char **argv)
