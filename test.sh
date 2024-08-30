@@ -132,14 +132,7 @@ PROGRAM abs
 
 testc "abs" "" "0\n1\n350\n1\n350\n0\n1\n350\n1\n350\n"
 
-PROGRAM printf # Also a varargs test
-
-testc "printf %d %s basic" "" "Hello World, 34, -21, UwU, 2147483647\n"
-testc "printf %f" "1" "2.500000, 0.012340, 250.000000, -120.000000, 999999999999999.000000, 18446744073709551616.000000\n"
-# On NULL glibc prints (nil), musl prints 0 with no 0x prefix
-testc "printf %p" "1 2" "0x1, 0xffffffffffffffff, 0xdeadbeef\n"
-
-
+test_group printf
 test_group ctype
 
 PROGRAM macros

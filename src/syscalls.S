@@ -21,16 +21,28 @@ a: \
 
 wrap(write)
 wrap(read)
-wrap(open)
-wrap(close)
-wrap(time)
-wrap(lseek)
+wrap(open)   // fopen()
+wrap(close)  // fclose()
+wrap(lseek)  // fseek()
+wrap(rename) // rename()
+// remove()
+wrap(rmdir)
+wrap(unlink)
+wrap(stat)
+
+wrap(time)   // time()
+
+// raise()
 wrap(kill)
-wrap(getpid) // raise
-wrap(rename)
+wrap(getpid)
+
+// malloc() free()
 wrap(mmap)
 wrap(munmap)
-wrap(execve)
+
+wrap(execve) // system()
+
+
 
 .global _Exit
 _Exit:

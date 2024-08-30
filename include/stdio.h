@@ -2,19 +2,18 @@
 #define _STDIO_H
 
 #include <stddef.h>
-#include <unimplemented.h>
+#include <stdarg.h>
 
 typedef struct __FILE {
 	int fd;
 	char *buffer;
 	int bufidx;
-	int bufmode;
 	int bufsize;
-	int iseof;
-	int bufrd;
-	int isrd;
-	int isrw;
-	int cstbuf;
+	char bufmode;
+	char iseof;
+	char bufrd;
+	char isrw;
+	char cstbuf;
 } FILE;
 
 extern FILE *stdin, *stdout, *stderr;
@@ -51,8 +50,10 @@ extern int rename(char *, char *);
 extern int fseek(FILE *, long, int);
 extern void rewind(FILE *);
 
-extern int printf(char *, ...);
-extern int fprintf(FILE *, char *, ...);
+extern int vfprintf(FILE *, const char *, va_list);
+extern int  vprintf(const char *, va_list);
+extern int  fprintf(FILE *, const char *, ...);
+extern int   printf(const char *, ...);
 
 extern int fflush(FILE *);
 

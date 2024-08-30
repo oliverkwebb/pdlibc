@@ -2,37 +2,52 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 #include <math.h>
 
-static char *ltoa(long long i, char *buf, unsigned max, int base)
+struct pfspec {
+	enum {CHAR, STRING, PTR, UINT, INT, ULONG, LONG, ULLONG, LLONG, DBL, LDBL, PERCENT, ERROR} type;
+	enum {EXTEND = 1, LONGEXT = 2, NORMAL = 0} typemanip;
+	int initial;
+	enum {NONE, SPACE, ZEROS} initialpadding;
+	enum {DEF, PLUS,  MINUS} forcedplusormin;
+	int decimals;
+	int capexp;
+	int expon;
+	int base;
+};
+
+static char *ltoa(long long i, char *buf, unsigned max, struct pfspec pf)
 {
-	char convtbl[] = "0123456789abcdef";
+	char *convtbl = pf.capexp ? "0123456789ABCDEF" : "0123456789abcdef";
 	int isneg = (i < 0);
+	buf[--max] = '\0';
 	if (i < 0) {
 		i = -i;
 	}
 	do {
-		int digit = i % base;
+		int digit = i % pf.base;
 		buf[--max] = convtbl[digit];
 		i -= digit;
-		i /= base;
+		i /= pf.base;
 	} while (i && max);
 	if (isneg) buf[--max] = '-';
 	return buf+max;
 }
 
-static char *ultoa(unsigned long long i, char *buf, unsigned max, int base)
+static char *ultoa(unsigned long long i, char *buf, unsigned max, struct pfspec pf)
 {
-	char convtbl[] = "0123456789abcdef";
+	char *convtbl = pf.capexp ? "0123456789ABCDEF" : "0123456789abcdef";
 	int isneg = (i < 0);
+	buf[--max] = '\0';
 	if (i < 0) {
 		i = -i;
 	}
 	do {
-		int digit = i % base;
+		int digit = i % pf.base;
 		buf[--max] = convtbl[digit];
 		i -= digit;
-		i /= base;
+		i /= pf.base;
 	} while (i && max);
 	if (isneg) buf[--max] = '-';
 	return buf+max;
@@ -40,9 +55,9 @@ static char *ultoa(unsigned long long i, char *buf, unsigned max, int base)
 
 // Yes this method has a percision loss that even ULONG_MAX doesn't pick up, patches welcome :)
 // Note: THIS CODE IS BUGGY AND ANNOYING IN CONJUNCTION WITH MATH FUNCTIONS, use wisely
-static char *strfromd(long double i, char *buf, int digits, int base)
+static char *strfromd(long double i, char *buf, int digits, struct pfspec pf)
 {
-	char convtbl[] = "0123456789abcdef";
+	char *convtbl = pf.capexp ? "0123456789ABCDEF" : "0123456789abcdef";
 	int j = 0, neg = i < 0;
 	if (i != i) return "nan";
 	if (i == HUGE_VAL) return   "inf";
@@ -50,69 +65,50 @@ static char *strfromd(long double i, char *buf, int digits, int base)
 	if (neg) i = fabs(i);
 	// 0[...N].[N...]0
 	// Probe for N of digits
-	long double s = base;
+	long double s = pf.base;
 	int ndig = 0;
 	for (;;) {
 		ndig++;
 		if (i/s < 1) break;
-		s *= base;
+		s *= pf.base;
 		if (s != s) break;
 	}
 	if (neg) buf[j++] = '-';
 
 
 	// Walk Back
-	s /= base;
+	s /= pf.base;
 	do {
 		double o = i / s;
-		buf[j++] = convtbl[(int)(o)%base];
+		buf[j++] = convtbl[(int)(o)%pf.base];
 		i -= (double)((int)(i/s))*s;
-		s /= base;
+		s /= pf.base;
 	} while (--ndig);
 
 
 	if (digits) {
 		buf[j++] = '.';
 		while (digits--) {
-			i *= base;
-			buf[j++] = convtbl[(int)(i)%base];
+			i *= pf.base;
+			buf[j++] = convtbl[(int)(i)%pf.base];
 		}
 	}
+
+	buf[j++] = '\0';
 
 	return buf;
 }
 
-/* C89 FORMATTING SPECS:
-	Number Conversions:
-
-	TAKE %[+-][NUM][lLh]x
-		%d, %i Signed Decimal Int
-		%o, %x, %X Unsigned, Octal, hex, HEX
-		TAKE [##][.##] as NUM
-			%f [-]ddd.ddd
-			%e, %E [-]d.ddd[eE][+-]
-			%g, %G
-			%s
-	%c
-	%p
-	%%
-*/
-
-int vfprintf(FILE *stream, char *format, va_list va)
+static int vfp_fputs_submit(char *str, FILE *stream)
 {
-	struct pfspec {
-		enum {CHAR, STRING, PTR,
-			USHORT, SHORT, UINT, INT, ULONG, LONG, ULLONG, LLONG,
-			FLT, DBL, LDBL, PERCENT, ERROR} type;
-		enum {EXTEND, HALF, LONGEXT, NORMAL} typemanip;
-		int initial;
-		enum {NONE, SPACE, ZEROS} initialpadding;
-		enum {DEF, PLUS,  MINUS} forcedplusormin;
-		int decimals;
-		int capexp;
-		int base;
-	} pf;
+	fputs(str, stream);
+	return strlen(str);
+}
 
+static int __submit_vfprintf(FILE *stream, int (*submit)(char *, FILE *), const char *format, va_list va)
+{
+	struct pfspec pf;
+	int written = 0;
 	char printf_numbuf[1024];
 	for (int i = 0; i < strlen(format); i++) {
 		if (format[i] != '%') fputc(format[i], stream);
@@ -126,6 +122,7 @@ int vfprintf(FILE *stream, char *format, va_list va)
 			pf.forcedplusormin = NONE;
 			pf.decimals = 0;
 			pf.capexp = 0;
+			pf.expon  = 0;
 			pf.base = 10;
 			fsiz = 1;
 
@@ -133,64 +130,89 @@ int vfprintf(FILE *stream, char *format, va_list va)
 
 			// %c %p %% %\0
 			if      (probe[1] == 'c') { pf.type = CHAR;     break; }
-			else if (probe[1] == 'p') { pf.type = PTR;      break; }
+			else if (probe[1] == 'p') { pf.type = PTR; pf.base = 16; break; }
 			else if (probe[1] == '%') { pf.type = PERCENT;  break; }
 			else if (!probe[1])       { pf.type = ERROR;    break; }
-			// From here the formatter has 3 optional parts
-			// Plus or minus (We'll find out if it's space padding later)
+
 			if      (probe[1] == '+') { fsiz++; pf.forcedplusormin = PLUS;  }
 			else if (probe[1] == '-') { fsiz++; pf.forcedplusormin = MINUS; }
-			// Numbers (which I'll read agnosticly as [##][.##] and discard the parts that don't matter :P)
-			// From here we either can have a:
-			//   Number
-			//   Decimal Point
-			//   Something else (formatting/length specifer)
-			// TODO
+
+			if (!probe[fsiz]) {
+				pf.type = ERROR;
+				break;
+			} else if (isdigit(probe[fsiz])) {
+				char *endptr;
+				if (probe[fsiz] == '0') pf.initialpadding = ZEROS;
+				pf.initial  = strtol(probe+fsiz, &endptr, 10);
+				probe    = endptr;
+			}
+
 			if (!probe[fsiz]) {
 				pf.type = ERROR;
 				break;
 			} else if (probe[fsiz] == '.') {
 				fsiz++;
+				char *endptr;
+				pf.decimals = strtol(probe+fsiz, &endptr, 10);
+				probe    = endptr;
 			}
-			// From here we either can have a:
-			//   Number
-			//   Something else (formatting/length specifer)
-			
-			if (probe[fsiz] == 's') { pf.type = STRING;  break; }
+
+			if (!probe[fsiz]) {
+				pf.type = ERROR;
+				break;
+			} else if (probe[fsiz] == 'l') { fsiz++; pf.type = LONG; }
+			else if (probe[fsiz] == 'L')   { fsiz++; pf.type = EXTEND; }
+			else if (probe[fsiz] == 'h')   { fsiz++; }
+
+			if      (probe[fsiz] == 's') { pf.type = STRING;  break; }
 			else if (probe[fsiz] == 'f') { pf.type = DBL;  break; }
+			else if (probe[fsiz] == 'e') { pf.type = DBL; pf.expon = 1;  break; }
+			else if (probe[fsiz] == 'g') { pf.type = DBL; pf.expon = 1;  break; }
+			else if (probe[fsiz] == 'E') { pf.type = DBL; pf.expon = 1; pf.capexp = 1;  break; }
+			else if (probe[fsiz] == 'G') { pf.type = DBL; pf.expon = 1; pf.capexp = 1;  break; }
 			else if (probe[fsiz] == 'd' || probe[fsiz] == 'i') { pf.type = INT;  break; }
 			else if (probe[fsiz] == 'u') { pf.type = UINT; break; }
 			else if (probe[fsiz] == 'o') { pf.type = INT; pf.base = 8; break; }
 			else if (probe[fsiz] == 'x') { pf.type = INT; pf.base = 16; break; }
+			else if (probe[fsiz] == 'X') { pf.type = INT; pf.base = 16; pf.capexp = 1; break; }
+			else    { pf.type = ERROR; break; }
 			} while (0); // Done so gotos don't have to be used
 
 			i += fsiz;
 
+			if (pf.typemanip != NORMAL) {
+				if      (pf.type == INT)  pf.type = (int []){INT,  LONG,  LLONG }[pf.typemanip];
+				else if (pf.type == UINT) pf.type = (int []){UINT, ULONG, ULLONG}[pf.typemanip];
+				else if (pf.type == DBL)  pf.type = (int []){DBL,  LDBL,  LDBL  }[pf.typemanip];
+			}
+			if (pf.type == STRING && pf.forcedplusormin == MINUS) pf.initialpadding = SPACE;
+
 			switch(pf.type) {
-#define NUMPRINT(T, t) case T: fputs(ltoa(va_arg(va, t), printf_numbuf, 32, pf.base), stream); break;
-			NUMPRINT(SHORT, short);
-			NUMPRINT(INT, int);
-			NUMPRINT(LONG, long);
+#define NUMPRINT(T, t) case T: written += submit(ltoa(va_arg(va, t), printf_numbuf, 32, pf), stream); break
+			NUMPRINT(INT,   int);
+			NUMPRINT(LONG,  long);
 			NUMPRINT(LLONG, long long);
 #undef NUMPRINT
-#define NUMPRINT(T, t) case T: fputs(ultoa(va_arg(va, unsigned t), printf_numbuf, 32, pf.base), stream); break;
-			NUMPRINT(USHORT, short);
-			NUMPRINT(UINT, int);
-			NUMPRINT(ULONG, long);
+#define NUMPRINT(T, t) case T: written += submit(ultoa(va_arg(va, unsigned t), printf_numbuf, 32, pf), stream); break
+			NUMPRINT(UINT,   int);
+			NUMPRINT(ULONG,  long);
 			NUMPRINT(ULLONG, long long);
 #undef NUMPRINT
+#define NUMPRINT(T, t) case T: written += submit(strfromd(va_arg(va, t), printf_numbuf, 6, pf), stream); break
+			NUMPRINT(DBL,  double);
+			NUMPRINT(LDBL, long double);
+#undef NUMPRINT
 
-			case CHAR: fputc((int)(va_arg(va, char)), stream); break;
+			case CHAR: fputc((int)(va_arg(va, int)), stream); break;
 
-			case STRING: fputs(va_arg(va, char *) ? : "(nul)", stream); break;
+			case STRING: written += submit(va_arg(va, char *) ? : "(nul)", stream); break;
 			case PTR:
 				; void *pt = va_arg(va, void *);
-				if (!pt) { fputs("(nil)", stream); break; }
-				fputs("0x", stream);
-				fputs(ultoa((unsigned long)pt,  printf_numbuf, 32, 16), stream);
+				if (!pt) { written += submit("(nil)", stream); break; }
+				written += submit("0x", stream);
+				written += submit(ultoa((unsigned long)pt, printf_numbuf, 32, pf), stream);
 				break;
-			case DBL: fputs(strfromd(va_arg(va, double), printf_numbuf, 6, 10), stream); break;
-			case PERCENT: fputs("%", stream); break;
+			case PERCENT: written += submit("%", stream); break;
 
 			case ERROR: // FALLTHROUGH
 			default:
@@ -198,10 +220,12 @@ int vfprintf(FILE *stream, char *format, va_list va)
 			}
 		}
 	}
-	return 1;
+	return written;
 }
 
-int printf(char *format, ...)
+int vfprintf(FILE *stream, const char *format, va_list va) { return __submit_vfprintf(stream, vfp_fputs_submit, format, va); }
+
+int printf(const char *format, ...)
 {
 	va_list va;
 	va_start(va, format);
@@ -210,9 +234,9 @@ int printf(char *format, ...)
 	return rv;
 }
 
-int vprintf(char *format, va_list va) { return vfprintf(stdout, format, va); }
+int vprintf(const char *format, va_list va) { return vfprintf(stdout, format, va); }
 
-int fprintf(FILE *stream, char *format, ...)
+int fprintf(FILE *stream, const char *format, ...)
 {
 	va_list va;
 	va_start(va, format);

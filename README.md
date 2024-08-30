@@ -19,6 +19,9 @@ The functions that have had full tests for them (`make test`):
 - free()
 - fwrite()
 - getenv()
+- atan() and atan2()
+- setlocale(), localeconv()
+- rand(), srand()
 - IO buffering (setvbuf, fflush)
 - labs(), abs()
 - malloc()
@@ -30,7 +33,7 @@ The functions that have had full tests for them (`make test`):
 - qsort()
 - raise()
 - sin()
-- Some of printf() (Which currently supports %s, %d, %c, %%, %p, %u, %o, and %x)
+- Most of printf(), vfprintf(), vprintf(), and fprintf();
 - sqrt()
 - strcat()
 - strchr(), memchr()
