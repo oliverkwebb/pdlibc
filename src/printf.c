@@ -99,20 +99,25 @@ static char *strfromd(long double i, char *buf, int digits, struct pfspec pf)
 	return buf;
 }
 
-static int vfp_fputs_submit(char *str, FILE *stream)
+static int vfp_fputs_submit(char *str, FILE *stream, char *null)
 {
 	fputs(str, stream);
 	return strlen(str);
 }
 
-static int __submit_vfprintf(FILE *stream, int (*submit)(char *, FILE *), const char *format, va_list va)
+static int __submit_vfprintf(FILE *stream, char *str, int (*submit)(char *, FILE *, char *), const char *format, va_list va)
 {
+#define SUBMIT(s) written += submit(s, stream, str)
 	struct pfspec pf;
 	int written = 0;
 	char printf_numbuf[1024];
 	for (int i = 0; i < strlen(format); i++) {
-		if (format[i] != '%') fputc(format[i], stream);
-		else {
+		if (format[i] != '%') {
+			; char a[2];
+			a[1] = '\0';
+			a[0] = format[i];
+			SUBMIT(a);
+		} else {
 			int fsiz = 0;
 			do {
 
@@ -188,31 +193,43 @@ static int __submit_vfprintf(FILE *stream, int (*submit)(char *, FILE *), const 
 			if (pf.type == STRING && pf.forcedplusormin == MINUS) pf.initialpadding = SPACE;
 
 			switch(pf.type) {
-#define NUMPRINT(T, t) case T: written += submit(ltoa(va_arg(va, t), printf_numbuf, 32, pf), stream); break
+#define NUMPRINT(T, t) case T: SUBMIT(ltoa(va_arg(va, t), printf_numbuf, 32, pf)); break
 			NUMPRINT(INT,   int);
 			NUMPRINT(LONG,  long);
 			NUMPRINT(LLONG, long long);
 #undef NUMPRINT
-#define NUMPRINT(T, t) case T: written += submit(ultoa(va_arg(va, unsigned t), printf_numbuf, 32, pf), stream); break
+#define NUMPRINT(T, t) case T: SUBMIT(ultoa(va_arg(va, unsigned t), printf_numbuf, 32, pf)); break
 			NUMPRINT(UINT,   int);
 			NUMPRINT(ULONG,  long);
 			NUMPRINT(ULLONG, long long);
 #undef NUMPRINT
-#define NUMPRINT(T, t) case T: written += submit(strfromd(va_arg(va, t), printf_numbuf, 6, pf), stream); break
+#define NUMPRINT(T, t) case T: SUBMIT(strfromd(va_arg(va, t), printf_numbuf, 6, pf)); break
 			NUMPRINT(DBL,  double);
 			NUMPRINT(LDBL, long double);
 #undef NUMPRINT
 
-			case CHAR: fputc((int)(va_arg(va, int)), stream); break;
+			case CHAR:
+				; char a[2];
+				a[1] = '\0';
+				a[0] = va_arg(va, int);
+				SUBMIT(a);
+				break;
 
-			case STRING: written += submit(va_arg(va, char *) ? : "(nul)", stream); break;
+			case STRING:
+				; char *st = va_arg(va, char *) ? : "(nul)";
+				size_t len = strlen(st);
+				written += SUBMIT(st);
+				if (pf.initialpadding == SPACE) for (int i = len; i < pf.initial; i++) SUBMIT(" ");
+				break;
+
 			case PTR:
 				; void *pt = va_arg(va, void *);
-				if (!pt) { written += submit("(nil)", stream); break; }
-				written += submit("0x", stream);
-				written += submit(ultoa((unsigned long)pt, printf_numbuf, 32, pf), stream);
+				if (!pt) { written += SUBMIT("(nil)"); break; }
+				written += SUBMIT("0x");
+				written += SUBMIT(ultoa((unsigned long)pt, printf_numbuf, 32, pf));
 				break;
-			case PERCENT: written += submit("%", stream); break;
+
+			case PERCENT: written += SUBMIT("%"); break;
 
 			case ERROR: // FALLTHROUGH
 			default:
@@ -223,7 +240,7 @@ static int __submit_vfprintf(FILE *stream, int (*submit)(char *, FILE *), const 
 	return written;
 }
 
-int vfprintf(FILE *stream, const char *format, va_list va) { return __submit_vfprintf(stream, vfp_fputs_submit, format, va); }
+int vfprintf(FILE *stream, const char *format, va_list va) { return __submit_vfprintf(stream, NULL, vfp_fputs_submit, format, va); }
 
 int printf(const char *format, ...)
 {

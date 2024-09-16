@@ -1,4 +1,4 @@
-# pdlibc - A Demonstration libc that's C89 compatible
+# pdlibc - A demonstration libc that aims to be C89 compatible
 ---
 
 pdlibc (Public Domain Libc) is a example implementation of the standard C library designed to be as simple as posible.
