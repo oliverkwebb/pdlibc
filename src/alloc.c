@@ -10,7 +10,7 @@ static struct mheader { // No need for attribute packed, all elements are the sa
 } *mstart = NULL;
 
 static struct mheader *getpage(struct mheader *prev, size_t size) {
-  struct mheader *page = mmap(NULL, size, 0x7/*PROT_{READ,WRITE,EXEC}*/, 0x22/*MAP_{ANON,PRIVATE}*/, -1, 0);
+  struct mheader *page = mmap(NULL, size, 0x3/*PROT_{READ,WRITE,EXEC}*/, 0x22/*MAP_{ANON,PRIVATE}*/, -1, 0);
 
   page->sections = (size <= 0x1000) ? 1 : 0;
   page->prev     = prev;
