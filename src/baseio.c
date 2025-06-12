@@ -47,7 +47,6 @@ int setvbuf(FILE *stream, char *buf, int mode, size_t size)
 }
 
 void setbuf(FILE *stream, char *buf, size_t size) { setvbuf(stream, buf, stream->bufmode, size); }
-
 static FILE *__fopen(const char *filename, const char *flags, FILE *reopen)
 {
 	int oflags = 0;
@@ -76,7 +75,6 @@ static FILE *__fopen(const char *filename, const char *flags, FILE *reopen)
 			stream->bufidx = 0;
 			stream->bufsize = BUFSIZ;
 			stream->iseof = 0;
-			stream->isrd = 0;
 			stream->isrw = oflags & 2;
 			stream->cstbuf = 0;
 			return stream;
@@ -90,7 +88,7 @@ FILE *freopen(char *filename, char *flags, FILE *stream) { return __fopen(filena
 
 int fclose(FILE *stream)
 {
-	if (stream->bufidx && !stream->isrd) fflush(stream);
+	if (stream->bufidx) fflush(stream);
 	if (!stream->cstbuf) free(stream->buffer);
 	stream->buffer = NULL;
 	return close(stream->fd) ? EOF : 0;

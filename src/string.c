@@ -116,7 +116,7 @@ static size_t __strspn(const char *buf, char *acc, int rev)
 {
 	for (int i = 0; i < strlen(buf); i++) {
 		for (int j = 0; j < strlen(acc); j++) {
-			int res = (int)strchr(buf, acc[j]);
+			long res = (long)strchr(buf, acc[j]);
 			if ((!res && rev) || (res && !rev)) return i;
 		}
 	}

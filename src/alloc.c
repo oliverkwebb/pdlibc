@@ -9,10 +9,10 @@ static struct mheader { // No need for attribute packed, all elements are the sa
   struct mheader *next;
 } *mstart = NULL;
 
-static struct mheader *getpage(struct mheader *prev, size_t size) {
+static struct mheader *getpage(struct mheader *prev, size_t size, int issplit) {
   struct mheader *page = mmap(NULL, size, 0x3/*PROT_{READ,WRITE}*/, 0x22/*MAP_{ANON,PRIVATE}*/, -1, 0);
 
-  page->sections = (size <= 0x1000) ? 1 : 0;
+  page->sections = !issplit ? 1 : 0;
   page->prev     = prev;
   page->next     = NULL;
   page->size     = size;
@@ -22,19 +22,19 @@ static struct mheader *getpage(struct mheader *prev, size_t size) {
 
 void *malloc(size_t bytes) {
   if (!bytes) return NULL;
-  if (!mstart) mstart = getpage(NULL, 0x1000);
+  if (!mstart) mstart = getpage(NULL, 0x1000, 1);
 
   struct mheader *probe = mstart;
 
   if (bytes > 64) {
     while (probe->next) probe = probe->next;
-    return (void *)(probe->next = getpage(probe, bytes)) + 64;
+    return (void *)(probe->next = getpage(probe, bytes, 1)) + 64;
   }
 
   while (probe->next && (!probe->next->sections || (!~probe->next->sections)))
   	probe = probe->next;
 
-  if (!probe->next) probe->next = getpage(probe, 0x1000);
+  if (!probe->next) probe->next = getpage(probe, 0x1000, 0);
 
   int section = __builtin_ctzll(~probe->next->sections); // Find first unset bit
   probe->next->sections |= (1 << section);               // Mark new allocation

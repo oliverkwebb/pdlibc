@@ -5,7 +5,7 @@ CRTI_LIBCA=crti_$(LIBCA)
 export CC CFLAGS INCFLAGS LIBCA CRTI_LIBCA NOSTDFLAGS
 CC=c99
 NOSTDFLAGS=-nostdlib -ffreestanding
-SHUTUP= -Wno-pointer-arith -Wno-discarded-qualifiers
+SHUTUP= -Wno-pointer-arith -Wno-discarded-qualifiers -Wno-sequence-point
 CFLAGS= -pedantic -Wall -funsigned-char -static -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-pie -Os -fdata-sections -ffunction-sections -fno-stack-protector $(MYCFLAGS) $(SHUTUP)
 INCFLAGS= -I include/ -nostdinc
 CSOURCE=$(wildcard src/*.c)

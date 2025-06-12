@@ -52,8 +52,6 @@ void ___runc(int argc, char **argv)
 	stderr->fd = 2;
 	environ = argv+(argc+1);
 
-	volatile char a[250];
-
 	exit(main(argc, argv, argv+(argc+1)));
 }
 

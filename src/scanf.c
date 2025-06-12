@@ -19,6 +19,7 @@
 
 int vfscanf(FILE *stream, char *s, char *format, va_list va)
 {
+return -1;
 }
 
 int scanf(char *s, char *format, ...)

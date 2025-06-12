@@ -41,6 +41,8 @@ unsigned long strtoul(char *num, char **endptr, int base)
 		errno = ERANGE;
 
 	if (endptr) *endptr = num;
+
+	return tracker;
 }
 
 int strtod(char *n, char **endptr) { return strtol(n, endptr, 10); }
