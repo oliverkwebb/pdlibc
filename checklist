@@ -225,14 +225,14 @@
 - [X] NULL
 - [X] time_t
 - [X] size_t
-- [x] struct tm
-- [x] double difftime(time_t time1, time_t time0);
-- [x] time_t mktime(struct tm *timeptr);
-- [x] time_t time(time_t *timer);
-- [x] CLK_TCK
-- [x] clock_t
-- [x] clock_t clock(void);
-- [ ] char *asctime(const struct tm *timeptr);
+- [X] struct tm
+- [X] double difftime(time_t time1, time_t time0);
+- [X] time_t mktime(struct tm *timeptr);
+- [X] time_t time(time_t *timer);
+- [X] CLK_TCK
+- [X] clock_t
+- [X] clock_t clock(void);
+- [X] char *asctime(const struct tm *timeptr);
 - [ ] char *ctime(const time_t *timer);
 - [ ] struct tm *gmtime(const time_t *timer);
 - [ ] struct tm *localtime(const time_t *timer);

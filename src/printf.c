@@ -109,7 +109,6 @@ struct bufinfo {
 	int idx;
 	size_t len;
 	char *buffer;
-	int ranout;
 };
 
 static int vfp_strapp_submit(char *str, FILE *ignored, char *ignoredalso, void *bufferinfo) {
@@ -286,7 +285,6 @@ int vsprintf(char *s, const char *format, va_list arg) {
 	struct bufinfo bufinfo;
 	bufinfo.buffer = s;
 	bufinfo.len = 1E9;
-	bufinfo.ranout = 0;
 	bufinfo.idx = 0;
 	return __submit_vfprintf(NULL, NULL, vfp_strapp_submit, format, arg, &bufinfo);
 };
@@ -295,6 +293,22 @@ int sprintf(char *s, const char *format, ...) {
 	va_list va;
 	va_start(va, format);
 	vsprintf(s, format, va);
+	va_end(va);
+	return 0;
+};
+
+int vsnprintf(char *s, size_t n, const char *format, va_list arg) {
+	struct bufinfo bufinfo;
+	bufinfo.buffer = s;
+	bufinfo.len = n;
+	bufinfo.idx = 0;
+	return __submit_vfprintf(NULL, NULL, vfp_strapp_submit, format, arg, &bufinfo);
+};
+
+int snprintf(char *s, size_t n, const char *format, ...) {
+	va_list va;
+	va_start(va, format);
+	vsnprintf(s, n, format, va);
 	va_end(va);
 	return 0;
 };

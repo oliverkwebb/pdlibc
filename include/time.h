@@ -25,4 +25,7 @@ extern time_t mktime(struct tm *);
 extern time_t difftime(time_t, time_t);
 extern clock_t clock();
 
+extern char *asctime_r(const struct tm *, char *);
+extern char *asctime(const struct tm *);
+
 #endif

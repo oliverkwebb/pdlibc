@@ -6,7 +6,9 @@ extern time_t time(time_t *);
 static int  daylens[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 static char *mnames[] = {"January", "Febuary", "March", "April", "May", "June", "July", "August",
 						"September", "October", "November", "December"};
-static char   *days[] = {"Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday", "Sunday"};
+static char    *days[] = {"Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday", "Sunday"};
+static char  *abdays[] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+static char *amnames[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
 static int tmcheck(struct tm t)
 {
@@ -58,3 +60,20 @@ char asctime_global_buf[26];
 char ctime_global_buf[26];
 struct tm gmtime_global_buf;
 struct tm localtime_global_buf;
+
+#include <stdio.h>
+
+char *asctime_r(const struct tm *tm, char *buf26) {
+	if (tmcheck(*tm)) {
+		buf26[0] = 0;
+		return buf26;
+	}
+	// Is this why tm_wday and tm_mon start from 0 when nothing else in tm does (besides yday)?
+	// I can imagine DMR in 1970 quickly changing some code for localtime so that asctime (which might as well be a debug function) worked.
+	snprintf(buf26, 26, "%s %s %d %d:%d:%d %d\n", abdays[tm->tm_wday], amnames[tm->tm_mon], tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, 1900 + tm->tm_year);
+	return buf26;
+}
+
+char *asctime(const struct tm *tm) {
+	return asctime_r(tm, asctime_global_buf);
+}
