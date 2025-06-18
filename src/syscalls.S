@@ -31,6 +31,7 @@ wrap(unlink)
 wrap(stat)
 
 wrap(time)   // time()
+wrap(clock_gettime)   // clock_gettime()
 
 // raise()
 wrap(kill)

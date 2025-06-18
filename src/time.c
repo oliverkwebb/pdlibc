@@ -33,3 +33,28 @@ time_t mktime(struct tm *tptr)
 	time += (70+tptr->tm_year) * (60*60*24*daylens[tptr->tm_mday]*(isleap(tptr->tm_year)));
 	return time;
 }
+
+clock_t clock() {
+	struct timespec {
+		time_t tvs;
+		time_t tvns;
+	} ts;
+	extern int clock_gettime(int, struct timespec *);
+	clock_gettime(2/*CLOCK_PROCESS_CPUTIME_ID*/, &ts);
+	return ts.tvs*CLK_TICK + ts.tvns*(CLK_TICK/1000);
+}
+
+// Timezone handling is messy and C89 says "uhdunno deal with it" in response
+//
+// https://gitlab.com/libtime/documentation/-/wikis/Timezones
+// Not writing a TZif parser or a POSIX time zone string parser
+// Everything is UTC always!
+
+// Note: These 4 functions have _r versions that don't access global variables.
+// I am including these 4 in the library even if they aren't standard C89.
+// It's the right thing (TM).
+
+char asctime_global_buf[26];
+char ctime_global_buf[26];
+struct tm gmtime_global_buf;
+struct tm localtime_global_buf;

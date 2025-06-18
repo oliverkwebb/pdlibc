@@ -99,15 +99,35 @@ static char *strfromd(long double i, char *buf, int digits, struct pfspec pf)
 	return buf;
 }
 
-static int vfp_fputs_submit(char *str, FILE *stream, char *null)
+static int vfp_fputs_submit(char *str, FILE *stream, char *null, void *state)
 {
 	fputs(str, stream);
 	return strlen(str);
 }
 
-static int __submit_vfprintf(FILE *stream, char *str, int (*submit)(char *, FILE *, char *), const char *format, va_list va)
+struct bufinfo {
+	int idx;
+	size_t len;
+	char *buffer;
+	int ranout;
+};
+
+static int vfp_strapp_submit(char *str, FILE *ignored, char *ignoredalso, void *bufferinfo) {
+	struct bufinfo *bi = bufferinfo; // Transmutation Yippe
+	size_t len = strlen(str);
+	size_t left = bi->len - bi->idx;
+	if (len >= left) {
+		return 0;
+	}
+	memcpy(bi->buffer+bi->idx, str, len);
+	bi->idx += len;
+	bi->buffer[bi->idx + len] = '\0';
+	return len;
+}
+
+static int __submit_vfprintf(FILE *stream, char *str, int (*submit)(char *, FILE *, char *, void *), const char *format, va_list va, void *initstate)
 {
-#define SUBMIT(s) written += submit(s, stream, str)
+#define SUBMIT(s) written += submit(s, stream, str, initstate);
 	struct pfspec pf;
 	int written = 0;
 	char printf_numbuf[1024];
@@ -240,7 +260,7 @@ static int __submit_vfprintf(FILE *stream, char *str, int (*submit)(char *, FILE
 	return written;
 }
 
-int vfprintf(FILE *stream, const char *format, va_list va) { return __submit_vfprintf(stream, NULL, vfp_fputs_submit, format, va); }
+int vfprintf(FILE *stream, const char *format, va_list va) { return __submit_vfprintf(stream, NULL, vfp_fputs_submit, format, va, NULL); }
 
 int printf(const char *format, ...)
 {
@@ -261,3 +281,20 @@ int fprintf(FILE *stream, const char *format, ...)
 	va_end(va);
 	return 0;
 }
+
+int vsprintf(char *s, const char *format, va_list arg) {
+	struct bufinfo bufinfo;
+	bufinfo.buffer = s;
+	bufinfo.len = 1E9;
+	bufinfo.ranout = 0;
+	bufinfo.idx = 0;
+	return __submit_vfprintf(NULL, NULL, vfp_strapp_submit, format, arg, &bufinfo);
+};
+
+int sprintf(char *s, const char *format, ...) {
+	va_list va;
+	va_start(va, format);
+	vsprintf(s, format, va);
+	va_end(va);
+	return 0;
+};

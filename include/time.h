@@ -23,6 +23,6 @@ struct tm {
 extern time_t time(time_t *);
 extern time_t mktime(struct tm *);
 extern time_t difftime(time_t, time_t);
-
+extern clock_t clock();
 
 #endif

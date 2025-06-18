@@ -2,8 +2,7 @@
 
 // TODO: Handle the linux signal subsystem
 /* Notes:
-// It's nice that the signal documentation is for libc and NOT the kernel \s
-0xC0000000
+// It's nice that the signal documentation is for libc and NOT the kernel
  18 #define SA_SIGINFO    4
  17 #define SA_ONSTACK    0x08000000
  16 #define SA_RESTART    0x10000000

@@ -9,6 +9,7 @@ The functions that have had full tests for them (`make test`):
 
 - abort()
 - assert()
+- time(), mktime(), clock()
 - atexit(), exit()
 - atoi(), atol(), strtod()
 - bsearch()
@@ -33,7 +34,7 @@ The functions that have had full tests for them (`make test`):
 - qsort()
 - raise()
 - sin()
-- Most of printf(), vfprintf(), vprintf(), and fprintf();
+- Most of printf(), vfprintf(), vprintf(), and fprintf(), sprintf() and vsprintf();
 - sqrt()
 - strcat()
 - strchr(), memchr()

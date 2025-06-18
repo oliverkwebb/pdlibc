@@ -6,7 +6,6 @@
 - [N] <stdlib.h>
 - [N] <string.h>
 - [N] <time.h>
-C89
 - [X] <assert.h>
 - [ ] <math.h>
 - [ ] <setjmp.h>
@@ -17,18 +16,15 @@ C89
 - [X] <locale.h>
 
 - [X] errno
-C89
 - [X] EDOM
 - [X] ERANGE
 
-C89
 - [X] NULL
-- [x] offsetof( type,  member-designator)
 - [X] ptrdiff_t
 - [X] size_t
 - [X] wchar_t
+- [x] offsetof( type,  member-designator)
 
-C89
 - [X] NDEBUG
 - [X] void assert(int expression);
 
@@ -46,7 +42,6 @@ C89
 - [X] int tolower(int c);
 - [X] int toupper(int c);
 
-C89
 - [X] LC_ALL
 - [X] LC_COLLATE
 - [X] LC_CTYPE
@@ -58,32 +53,30 @@ C89
 - [X] char *setlocale(int category, const char *locale);
 - [X] struct lconv *localeconv(void);
 
-C89
 - [X] HUGE_VAL
 - [X] double cos(double x);
 - [X] double sin(double x);
 - [X] double sqrt(double x);
 - [X] double fabs(double x);
-- [ ] double log(double x);
 - [X] double atan(double x);
 - [X] double atan2(double y, double x);
 - [X] double tan(double x);
-- [ ] double log10(double x);
 - [x] double acos(double x);
 - [x] double asin(double x);
+- [x] double ldexp(double x, int exp);
+- [x] double frexp(double value, int *exp);
+- [x] double ceil(double x);
+- [x] double floor(double x);
+- [ ] double log(double x);
+- [ ] double log10(double x);
 - [ ] double cosh(double x);
 - [ ] double sinh(double x);
 - [ ] double tanh(double x);
 - [ ] double exp(double x);
-- [x] double ldexp(double x, int exp);
 - [ ] double pow(double x, double y);
-- [x] double frexp(double value, int *exp);
 - [ ] double modf(double value, double *iptr);
-- [x] double ceil(double x);
-- [x] double floor(double x);
 - [ ] double fmod(double x, double y);
 
-C89
 - [x] SIGABRT
 - [x] SIGFPE
 - [x] SIGILL
@@ -122,7 +115,6 @@ C89
 - [x] size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 - [X] size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 - [x] int getchar(void);
-C89
 - [X] BUFSIZ
 - [X] FOPEN_MAX
 - [ ] fpos_t
@@ -145,7 +137,7 @@ C89
 - [X] int fscanf(FILE *stream, const char *format, ...);
 - [X] int printf(const char *format, ...);
 - [ ] int scanf(const char *format, ...);
-- [ ] int sprintf(char *s, const char *format, ...);
+- [X] int sprintf(char *s, const char *format, ...);
 - [ ] int sscanf(const char *s, const char *format, ...);
 - [X] int vfprintf(FILE *stream, const char *format, va_list arg);
 - [x] int vprintf(const char *format, va_list arg);
@@ -184,7 +176,6 @@ C89
 - [X] void exit(int status);
 - [X] char *getenv(const char *name);
 - [X] int abs(int j);
-C89
 - [ ] unsigned long int strtoul(const char *nptr, char **endptr, int base);
 - [ ] double strtod(const char *nptr, char **endptr);
 - [ ] long int strtol(const char *nptr, char **endptr, int base);
@@ -220,36 +211,33 @@ C89
 - [X] size_t strlen(const char *s);
 - [X] int strncmp(const char *s1, const char *s2, size_t n);
 - [X] char *strncpy(char *s1, const char *s2, size_t n);
-- [x] char *strncat(char *s1, const char *s2, size_t n);
-C89
-- [x] char *strerror(int errnum);
 - [X] size_t strxfrm(char *s1, const char *s2, size_t n);
 - [X] int strcoll(const char *s1, const char *s2);
+- [x] char *strncat(char *s1, const char *s2, size_t n);
+- [x] char *strerror(int errnum);
+- [x] char *strrchr(const char *s, int c);
 - [ ] size_t strcspn(const char *s1, const char *s2);
 - [ ] char *strpbrk(const char *s1, const char *s2);
-- [x] char *strrchr(const char *s, int c);
 - [ ] size_t strspn(const char *s1, const char *s2);
 - [ ] char *strstr(const char *s1, const char *s2);
 - [ ] char *strtok(char *s1, const char *s2);
 
 - [X] NULL
 - [X] time_t
-C89
-- [x] CLK_TCK
-- [x] clock_t
 - [X] size_t
 - [x] struct tm
-- [ ] clock_t clock(void);
 - [x] double difftime(time_t time1, time_t time0);
 - [x] time_t mktime(struct tm *timeptr);
 - [x] time_t time(time_t *timer);
+- [x] CLK_TCK
+- [x] clock_t
+- [x] clock_t clock(void);
 - [ ] char *asctime(const struct tm *timeptr);
 - [ ] char *ctime(const time_t *timer);
 - [ ] struct tm *gmtime(const time_t *timer);
 - [ ] struct tm *localtime(const time_t *timer);
 - [ ] size_t strftime(char *s, size_t maxsize, const char *format, const struct tm *timeptr);
 
-C89
 - [X] #define CHAR_BIT                         8
 - [X] #define CHAR_MAX    UCHAR_MAX  or SCHAR_MAX
 - [X] #define CHAR_MIN            0  or SCHAR_MIN
@@ -267,7 +255,6 @@ C89
 - [X] #define ULONG_MAX               4294967295
 - [X] #define USHRT_MAX                    65535
 
-C89
 - [X] #define DBL_DIG                         10
 - [X] #define DBL_EPSILON                   1E-9
 - [X] #define DBL_MANT_DIG

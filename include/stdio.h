@@ -51,8 +51,10 @@ extern int fseek(FILE *, long, int);
 extern void rewind(FILE *);
 
 extern int vfprintf(FILE *, const char *, va_list);
+extern int vsprintf(char *, const char *, va_list);
 extern int  vprintf(const char *, va_list);
 extern int  fprintf(FILE *, const char *, ...);
+extern int  sprintf(char *, const char *, ...);
 extern int   printf(const char *, ...);
 
 extern int fflush(FILE *);
